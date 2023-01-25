@@ -26,11 +26,21 @@ Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"]
 Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
 Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
 Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"]);
-Route::get("/get-me", 'App\Http\Controllers\LoginController@getMe');
+Route::get("/get-me", ["App\Http\Controllers\LoginController", "getMe"]);
 
-Route::prefix("/mercado")->group(function(){
-    Route::post("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "cadastrarLista"]);
-    Route::get("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "listasDoUsuario"]);
-    Route::get("/lista/{uuid_user}/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "obterLista"]);
-    Route::put("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
+Route::prefix("/mercado")->group(function() {
+    Route::middleware('jwt:self')->group(function() {
+        Route::post("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "cadastrarLista"]);
+        Route::get("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "listasDoUsuario"]);
+    });
+
+    // Lista
+    Route::patch("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarStatusLista"]);
+    Route::put("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
+    Route::get("/lista/{uuid_lista}/detalhar", ["App\Http\Controllers\Mercado\ListaController", "obterLista"]);
+
+    // Produtos
+    Route::patch("/lista/produto/{id_produto}", ["App\Http\Controllers\Mercado\ListaController", "atualizarStatusProduto"]);
+    Route::post("/lista/produto/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "adicionarProduto"]);
+    Route::delete("/lista/produto/{id_produto}", ["App\Http\Controllers\Mercado\ListaController", "removerProduto"]);
 });

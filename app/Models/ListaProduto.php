@@ -18,9 +18,13 @@ class ListaProduto extends Model
         "observacoes",
         "created_at",
         "updated_at",
+        "ordem",
     ];
 
-    protected $hiden = [
+    protected $hidden = [
         "id_produto",
+        "id_lista",
+        "created_at",
+        "updated_at"
     ];
 }

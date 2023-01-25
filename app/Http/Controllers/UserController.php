@@ -59,6 +59,10 @@ class UserController extends Controller
         try{
             $user = User::whereUuid($uuid)->with("perfil")->first();
 
+            if( is_null($user) ) {
+                throw new Exception("Usuário não encontrado", 404);
+            }
+
             return $this->json($user->toArray());
         }catch( Exception $e ) {
             return $this->jsonException($e);

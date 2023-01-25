@@ -24,4 +24,9 @@ class ListaUser extends Model
         "id",
         "id_user",
     ];
+
+    public function produtos()
+    {
+        return $this->hasMany(ListaProduto::class, "id_lista", "id");
+    }
 }

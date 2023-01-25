@@ -22,6 +22,11 @@ class Controller extends BaseController
         return $this->json(["message" => $message], $status);
     }
 
+    protected function jsonCreated(string $message)
+    {
+        return $this->json(["message" => $message], 201);
+    }
+
     protected function jsonResponse(string $title, string $message = "", array $data = [], int $status = 200)
     {
         if( !strlen($title) ) {
@@ -40,14 +45,15 @@ class Controller extends BaseController
 
     protected function jsonException(Exception $e)
     {
-        if( env("APP_DEBUG") ) {
-            dd($e);
-        }
         $resp = [
             "message" => $e->getMessage(),
             "line"    => $e->getLine(),
-            "trace"   => $e->getTrace(),
+            //"trace"   => $e->getTrace(),
         ];
+
+        if( env("APP_DEBUG") ) {
+            $resp["trace"] = $e->getTrace();
+        }
 
         return $this->json($resp);
     }

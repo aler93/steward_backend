@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId("id_lista")->references("id")->on("listas_user")->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignId("id_produto")->nullable()->references("id")->on("produtos")->cascadeOnUpdate()->restrictOnDelete();
             $table->string("produto", 150);
-            $table->text("observacoes");
+            $table->text("observacoes")->nullable();
+            $table->boolean("status")->default(false);
+            $table->unsignedInteger("ordem")->nullable();
             $table->timestamps();
         });
     }
