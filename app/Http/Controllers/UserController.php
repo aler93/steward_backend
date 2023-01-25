@@ -8,7 +8,7 @@ use App\Models\Perfil;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -18,6 +18,9 @@ class UserController extends Controller
             DB::beginTransaction();
             $uuid = uuid();
             $data = array_merge($request->all(), ["uuid" => $uuid, "name" => $request->input("perfil")["nome"]]);
+
+            $data["password"]        = Hash::make($data["password"]);
+            $data["change_password"] = false;
 
             $user = new User($data);
             $user->save();
@@ -29,7 +32,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return $this->json(["uuid_user" => $uuid]);
+            return $this->json(["uuid_user" => $uuid], 202);
         } catch( Exception $e ) {
             DB::rollback();
 
@@ -39,7 +42,7 @@ class UserController extends Controller
 
     public function listar(Request $request)
     {
-        $limit = $request->input("limit") ?? 15;
+        $limit  = $request->input("limit") ?? 15;
         $offset = $request->input("offset") ?? 0;
 
         try {
@@ -58,6 +61,28 @@ class UserController extends Controller
 
             return $this->json($user->toArray());
         }catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function remover(string $uuid)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user   = User::where("uuid", "=", $uuid)->first();
+
+            $perfil = Perfil::where("id_user", "=", $user->id)->first();
+
+            $perfil->forceDelete();
+            $user->forceDelete();
+
+            DB::commit();
+
+            return $this->json(null, 204);
+        }catch( Exception $e ) {
+            DB::rollBack();
+
             return $this->jsonException($e);
         }
     }

@@ -14,7 +14,28 @@ class Controller extends BaseController
 
     protected function json($data, int $status = 200)
     {
-        return response()->json($data);
+        return response()->json($data, $status);
+    }
+
+    protected function jsonMessage(string $message, int $status = 200)
+    {
+        return $this->json(["message" => $message], $status);
+    }
+
+    protected function jsonResponse(string $title, string $message = "", array $data = [], int $status = 200)
+    {
+        if( !strlen($title) ) {
+            $title = "Requisição concluída";
+        }
+
+        $response = [
+            "title"   => $title,
+            "message" => $message,
+            "data"    => $data,
+            "status"  => http_response_code($status)
+        ];
+
+        return $this->json($response, $status);
     }
 
     protected function jsonException(Exception $e)
@@ -25,6 +46,7 @@ class Controller extends BaseController
         $resp = [
             "message" => $e->getMessage(),
             "line"    => $e->getLine(),
+            "trace"   => $e->getTrace(),
         ];
 
         return $this->json($resp);

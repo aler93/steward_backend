@@ -19,5 +19,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post("/user", ['App\Http\Controllers\UserController', "cadastrar"]);
-Route::get("/user", ['App\Http\Controllers\UserController', "listar"]);
+Route::get("/user", ['App\Http\Controllers\UserController', "listar"])->middleware("jwt");
 Route::get("/user/{uuid}", ['App\Http\Controllers\UserController', "buscar"]);
+Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"])->middleware("jwt");
+
+Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
+Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
+Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"]);
+Route::get("/get-me", 'App\Http\Controllers\LoginController@getMe');
+
+Route::prefix("/mercado")->group(function(){
+    Route::post("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "cadastrarLista"]);
+    Route::get("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "listasDoUsuario"]);
+    Route::get("/lista/{uuid_user}/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "obterLista"]);
+    Route::put("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
+});
