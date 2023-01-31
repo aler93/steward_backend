@@ -27,6 +27,11 @@ class Controller extends BaseController
         return $this->json(["message" => $message], 201);
     }
 
+    protected function jsonNoContent()
+    {
+        return $this->json(null, 204);
+    }
+
     protected function jsonResponse(string $title, string $message = "", array $data = [], int $status = 200)
     {
         if( !strlen($title) ) {

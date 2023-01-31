@@ -53,10 +53,13 @@ class ListaController extends Controller
 
     public function listasDoUsuario(Request $request)
     {
+        $limit  = $request->input("limit") ?? 15;
+        $offset = $request->input("offset") ?? 0;
+
         try {
             $user = auth()->user();
 
-            $dados = ListaUser::where("id_user", "=", $user->id);
+            $dados = ListaUser::where("id_user", "=", $user->id)->limit($limit)->offset($offset);
 
             if( $request->input("filter") == "pendentes" ) {
                 $dados = ListaUser::where("status", "=", false);
@@ -65,7 +68,12 @@ class ListaController extends Controller
                 $dados = ListaUser::where("status", "=", true);
             }
 
-            return $this->json(["listas" => $dados->get()]);
+            $saida = $dados->orderByDesc("created_at")->get()->toArray();
+            foreach( $saida as &$row ) {
+                $row["data_compra_f"] = date("d/m/Y", strtotime($row["data_compra"]));
+            }
+
+            return $this->json(["listas" => $saida]);
         } catch( Exception $e ) {
             return $this->jsonException($e);
         }
@@ -75,12 +83,26 @@ class ListaController extends Controller
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
-            $produtos = ListaProduto::where("id_lista", "=", $lista->id)->orderBy("ordem")->get();
+            $produtos = ListaProduto::where("id_lista", "=", $lista->id)->orderBy("status")->orderBy("ordem")->get();
             
             $lista = $lista->toArray();
             $lista["produtos"] = $produtos->toArray();
 
             return $this->json(["lista" => $lista]);
+        } catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function removerLista(string $uuidLista)
+    {
+        try {
+            $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
+            ListaProduto::where("id_lista", "=", $lista->id)->forceDelete();
+
+            $lista->forceDelete();
+
+            return $this->jsonNoContent();
         } catch( Exception $e ) {
             return $this->jsonException($e);
         }
