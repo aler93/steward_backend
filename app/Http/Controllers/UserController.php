@@ -9,10 +9,11 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use \Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    public function cadastrar(CadastrarRequest $request)
+    public function cadastrar(CadastrarRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -27,12 +28,16 @@ class UserController extends Controller
             $userId = $user->id;
 
             $dataPerfil = array_merge($request->input("perfil"), ["id_user" => $userId]);
+
+            $dataPerfil["telefone"] = preg_replace('/[^0-9]/', '', $dataPerfil["telefone"]);
+            $dataPerfil["cpf"]      = preg_replace('/[^0-9]/', '', $dataPerfil["cpf"]);
+
             $perfil = new Perfil($dataPerfil);
             $perfil->save();
 
             DB::commit();
 
-            return $this->json(["uuid_user" => $uuid], 202);
+            return $this->json(["uuid_user" => $uuid], 201);
         } catch( Exception $e ) {
             DB::rollback();
 
@@ -40,7 +45,7 @@ class UserController extends Controller
         }
     }
 
-    public function listar(Request $request)
+    public function listar(Request $request): JsonResponse
     {
         $limit  = $request->input("limit") ?? 15;
         $offset = $request->input("offset") ?? 0;
@@ -54,7 +59,7 @@ class UserController extends Controller
         }
     }
 
-    public function buscar(string $uuid)
+    public function buscar(string $uuid): JsonResponse
     {
         try{
             $user = User::whereUuid($uuid)->with("perfil")->first();
@@ -69,7 +74,7 @@ class UserController extends Controller
         }
     }
 
-    public function remover(string $uuid)
+    public function remover(string $uuid): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -84,6 +89,52 @@ class UserController extends Controller
             DB::commit();
 
             return $this->json(null, 204);
+        }catch( Exception $e ) {
+            DB::rollBack();
+
+            return $this->jsonException($e);
+        }
+    }
+
+    public function atualizar( Request $request, string $uuid ): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            $user   = User::where("uuid", "=", $uuid)->first();
+            $perfil = Perfil::where("id_user", "=", $user->id)->first();
+
+            $dataPerfil = $request->input("perfil");
+            $dataUser   = $request->all();
+            unset($dataUser["perfil"]);
+            $dataUser["admin"] = false;
+
+            $perfil->update($dataPerfil);
+            $user->update($dataUser);
+
+            DB::commit();
+
+            return $this->json(null, 200);
+        }catch( Exception $e ) {
+            DB::rollBack();
+
+            return $this->jsonException($e);
+        }
+    }
+
+    public function admin( string $uuid ): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            $user   = User::where("uuid", "=", $uuid)->first();
+
+            $user->admin = !$user->admin;
+            $user->save();
+
+            DB::commit();
+
+            return $this->json(null, 200);
         }catch( Exception $e ) {
             DB::rollBack();
 
