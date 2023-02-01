@@ -33,10 +33,23 @@ class ProdutoController extends Controller
         }
     }
 
-    public function obterListas()
+    public function deletarCategoria(int $id)
     {
         try {
-            $categorias = CategoriaProduto::get();
+            CategoriaProduto::where("id", "=", $id)->forceDelete();
+
+            return $this->jsonNoContent();
+        } catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function obterListas()
+    {
+        $cols = ["categorias_produtos.id", "categorias_produtos.nome", "cp.nome AS categoria"];
+        try {
+            $categorias = CategoriaProduto::select($cols)->leftJoin("categorias_produtos AS cp", "cp.id", "=", "categorias_produtos.id_categoria")
+            ->get();
 
             return $this->json(["categorias" => $categorias->toArray()]);
         } catch( Exception $e ) {

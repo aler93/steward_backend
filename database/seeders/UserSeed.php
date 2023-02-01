@@ -19,7 +19,7 @@ class UserSeed extends Seeder
         $users = [
             [
                 "id"       => 1,
-                "name"     => "Admin",
+                //"name"     => "Admin",
                 "uuid"     => uuid(),
                 "email"    => "admin@steward.com.br",
                 "password" => Hash::make("admin123"),
@@ -27,8 +27,8 @@ class UserSeed extends Seeder
             ],
             [
                 "id"       => 2,
-                "name"     => "Alisson Naimayer",
-                "uuid"     => uuid(),
+                //"name"     => "Alisson Naimayer",
+                "uuid"     => "e3ee1e8a-2833-4f7c-9c56-b7c338935b7b",
                 "email"    => "anaimayer3@gmail.com",
                 "password" => Hash::make("11351892"),
                 "admin"    => true,

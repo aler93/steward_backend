@@ -12,5 +12,5 @@ class CategoriaProduto extends Model
     public $table = "categorias_produtos";
     public $timestamps = false;
 
-    protected $fillable = ["nome"];
+    protected $fillable = ["nome", "id_categoria"];
 }

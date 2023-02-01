@@ -54,6 +54,7 @@ Route::prefix("/mercado")->group(function() {
 Route::prefix("/produto")->group(function(){
     Route::middleware('jwt:admin')->group(function() {
         Route::post("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarCategoria"]);
+        Route::delete("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "deletarCategoria"]);
     });
 
     Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
