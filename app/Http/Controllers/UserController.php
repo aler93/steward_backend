@@ -29,8 +29,8 @@ class UserController extends Controller
 
             $dataPerfil = array_merge($request->input("perfil"), ["id_user" => $userId]);
 
-            $dataPerfil["telefone"] = preg_replace('/[^0-9]/', '', $dataPerfil["telefone"]);
-            $dataPerfil["cpf"]      = preg_replace('/[^0-9]/', '', $dataPerfil["cpf"]);
+            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
+            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
 
             $perfil = new Perfil($dataPerfil);
             $perfil->save();
@@ -105,6 +105,9 @@ class UserController extends Controller
             $perfil = Perfil::where("id_user", "=", $user->id)->first();
 
             $dataPerfil = $request->input("perfil");
+            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
+            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
+
             $dataUser   = $request->all();
             unset($dataUser["perfil"]);
             $dataUser["admin"] = false;

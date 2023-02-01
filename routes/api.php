@@ -55,5 +55,6 @@ Route::prefix("/saude")->group(function(){
 
     Route::middleware('jwt')->group(function() {
         Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        Route::post("/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
     });
 });

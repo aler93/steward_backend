@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
             $table->float("massa_corporal");
             $table->float("altura");
-            $table->text("observacoes");
+            $table->text("observacoes")->nullable();
             $table->timestamp("data_hora");
         });
     }
