@@ -23,7 +23,7 @@ class ListaController extends Controller
         try {
             $dados = $request->input("lista");
 
-            $dados["uuid"] = uuid();
+            $dados["uuid"]    = uuid();
             $dados["id_user"] = auth()->user()->id;
 
             $this->repository->cadastrarLista($dados);

@@ -23,9 +23,9 @@ class Controller extends BaseController
         return $this->json(["message" => $message], $status);
     }
 
-    protected function jsonCreated(string $message): jsonResponse
+    protected function jsonCreated(string $message, array $data = []): jsonResponse
     {
-        return $this->json(["message" => $message], 201);
+        return $this->json(["message" => $message, "recurso" => $data], 201);
     }
 
     protected function jsonNoContent(): jsonResponse

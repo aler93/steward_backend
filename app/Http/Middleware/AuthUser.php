@@ -23,13 +23,19 @@ class AuthUser
             return response()->json(["message" => "Token JWT não encontrado na requisição"], 403);
         }
 
-        if( $self ) {
+        if( $self == "self" ) {
             $url  = explode("?", $request->getUri())[0];
             $uri  = explode("/", $url);
             $uuid = $uri[count($uri) - 1];
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);
+            }
+        }
+
+        if( $self == "admin" ) {
+            if( !$user->admin ) {
+                return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
             }
         }
 

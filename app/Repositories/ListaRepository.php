@@ -47,4 +47,9 @@ class ListaRepository
 
         DB::table("lista_produtos")->insert($rows);
     }
+
+    public function validadeUserLista(string $uuidLista, $user): bool
+    {
+        return false;
+    }
 }

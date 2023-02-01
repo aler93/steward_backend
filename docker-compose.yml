@@ -38,6 +38,22 @@ services:
     #logging:
       #driver: json_file
 
+  steward_scheduler:
+    image: aler/php-fpm:8.2
+    container_name: steward_scheduler
+    restart: unless-stopped
+    networks:
+      - steward_rede
+    ports:
+      - 9001:9000
+    volumes:
+      - ./docker-logs/aplicacao:/app/storage/logs
+      - ./docker-logs/filas:/var/log/steward
+      - .:/app
+    entrypoint: ["php", "artisan", "schedule:work"]
+    #logging:
+      #driver: json_file
+
   steward_db:
     image: postgres:13
     container_name: steward_db
