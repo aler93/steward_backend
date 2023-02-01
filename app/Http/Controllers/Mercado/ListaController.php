@@ -83,6 +83,9 @@ class ListaController extends Controller
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
+            if( is_null($lista) ) {
+                return $this->jsonMessage("Nenhuma lista cadastrada", 404);
+            }
             $produtos = ListaProduto::where("id_lista", "=", $lista->id)->orderBy("status")->orderBy("ordem")->get();
             
             $lista = $lista->toArray();
