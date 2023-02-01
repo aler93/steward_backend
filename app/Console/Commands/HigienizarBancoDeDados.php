@@ -13,7 +13,7 @@ class HigienizarBancoDeDados extends Command
      *
      * @var string
      */
-    protected $signature = "higienizar:db";
+    protected $signature = "steward:limpar";
 
     /**
      * The console command description.
