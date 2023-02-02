@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /docker-logs/*
 docker-logs/nginx/access.log
+docker-logs/nginx/error.log
