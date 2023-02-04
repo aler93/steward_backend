@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         //$schedule->command("steward:limpar")->hourly();
+        //$schedule->command("steward:backupDB")->daily();
     }
 
     /**
