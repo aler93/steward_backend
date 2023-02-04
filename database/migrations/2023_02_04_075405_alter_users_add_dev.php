@@ -13,11 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categorias_produtos', function (Blueprint $table) {
-            $table->id();
-            $table->string("nome", 50)->unique();
-            $table->foreignId("id_categoria")->nullable()->references("id")->on("categorias_produtos")->cascadeOnUpdate()->cascadeOnDelete();
-        });
+        //
     }
 
     /**
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categorias_produtos');
+        //
     }
 };
