@@ -71,3 +71,12 @@ Route::prefix("/saude")->group(function(){
         Route::post("/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
     });
 });
+
+// Parte Admin
+Route::prefix("/admin")->group(function(){
+    //Route::middleware('jwt:admin')->group(function() {
+    //    Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
+    //});
+
+    Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
+});
