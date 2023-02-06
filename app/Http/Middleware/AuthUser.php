@@ -13,7 +13,7 @@ class AuthUser
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handle(Request $request, Closure $next, $self = null)
     {
@@ -24,9 +24,10 @@ class AuthUser
         }
 
         if( $self == "self" ) {
-            $url  = explode("?", $request->getUri())[0];
-            $uri  = explode("/", $url);
-            $uuid = $uri[count($uri) - 1];
+            //$url  = explode("?", $request->getUri())[0];
+            //$uri  = explode("/", $url);
+            //$uuid = $uri[count($uri) - 1];
+            $uuid = $request->input("uuid_user");
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);
@@ -35,12 +36,6 @@ class AuthUser
 
         if( $self == "admin" ) {
             if( !$user->admin ) {
-                return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
-            }
-        }
-
-        if( $self == "dev" ) {
-            if( !$user->dev ) {
                 return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
             }
         }
