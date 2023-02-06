@@ -136,19 +136,13 @@ class UserController extends Controller
     public function admin(string $uuid): JsonResponse
     {
         try {
-            DB::beginTransaction();
-
             $user = User::where("uuid", "=", $uuid)->first();
 
             $user->admin = !$user->admin;
             $user->save();
 
-            DB::commit();
-
-            return $this->json(null);
+            return $this->jsonNoContent();
         } catch (Exception $e) {
-            DB::rollBack();
-
             return $this->jsonException($e);
         }
     }

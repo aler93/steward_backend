@@ -33,6 +33,11 @@ class TestHelper
         }
     }
 
+    public static function makeAuthHeader(string $jwt): array
+    {
+        return ["Authorization" => $jwt];
+    }
+
     public static function logout(string $jwt): void
     {
         try {

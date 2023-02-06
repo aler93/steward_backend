@@ -59,7 +59,7 @@ class UserTest extends TestCase
     public function getUser(string $email = "tester@steward.com.br"): array
     {
         $user = User::where("email", "=", $email)->with("perfil")->first();
-        if( is_null($user) ) {
+        if (is_null($user)) {
             return [];
         }
 
@@ -86,13 +86,55 @@ class UserTest extends TestCase
 
     public function testUpdate()
     {
-        $this->jwt = TestHelper::login();
-        $user = $this->getUser();
+        $this->jwt  = TestHelper::login();
+        $user       = $this->getUser();
         $nomeSocial = $this->faker->firstName;
 
         $user["perfil"]["nome_social"] = $nomeSocial;
 
-        $r = $this->put($this->url . "/" . $user['uuid'], $user, ["Authorization" => $this->jwt]);
+        $r = $this->put($this->url . "/" . $user['uuid'], $user, TestHelper::makeAuthHeader($this->jwt));
         $r->assertStatus(200)->assertExactJson(["user" => $user]);
+    }
+
+    public function testUpdateAdminWithPermission()
+    {
+        $this->jwt = TestHelper::login("admin");
+        $user      = $this->getUser();
+
+        $r = $this->patch($this->url . "/" . $user['uuid'] . "/admin", [], TestHelper::makeAuthHeader($this->jwt));
+        $r->assertStatus(204)->dump();
+    }
+
+    public function testUpdateAdminNoPermission()
+    {
+        $this->jwt = TestHelper::login();
+        $user      = $this->getUser();
+
+        $r = $this->patch($this->url . "/" . $user['uuid'] . "/admin", [], TestHelper::makeAuthHeader($this->jwt));
+        $r->assertStatus(401);
+    }
+
+    public function testListUsers()
+    {
+        $this->jwt = TestHelper::login("admin");
+
+        $r         = $this->get($this->url . "/", TestHelper::makeAuthHeader($this->jwt));
+        $structure = [
+            "usuarios" => [
+                "*" =>
+                    [
+                        "uuid",
+                        "email",
+                        "email_verified_at",
+                        "change_password",
+                        "created_at",
+                        "updated_at",
+                        "deleted_at",
+                        "admin",
+                    ]
+            ]
+        ];
+
+        $r->assertStatus(200)->assertJsonStructure($structure);
     }
 }
