@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,11 @@ class UserSeed extends Seeder
                 "admin"    => false,
             ],
         ];
+
+        foreach( $users as &$user ) {
+            $now = Carbon::now();
+            $user = array_merge($user, ["created_at" => $now, "updated_at" => $now]);
+        }
 
         DB::table("users")->insertOrIgnore($users);
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -47,6 +48,11 @@ class PerfilSeed extends Seeder
                 "genero"          => "Prefere não identificar",
             ],
         ];
+
+        foreach( $profiles as &$row ) {
+            $now = Carbon::now();
+            $row = array_merge($row, ["created_at" => $now, "updated_at" => $now]);
+        }
 
         DB::table("perfil_user")->insert($profiles);
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean("change_password")->default(true);
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp("deleted_at")->nullable();
         });
     }
 

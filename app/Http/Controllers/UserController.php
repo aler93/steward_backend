@@ -39,7 +39,7 @@ class UserController extends Controller
             DB::commit();
 
             return $this->json(["uuid_user" => $uuid], 201);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             DB::rollback();
 
             return $this->jsonException($e);
@@ -55,22 +55,22 @@ class UserController extends Controller
             $users = User::limit($limit)->offset($offset)->get();
 
             return $this->json(["usuarios" => $users]);
-        }catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
 
     public function buscar(string $uuid): JsonResponse
     {
-        try{
+        try {
             $user = User::whereUuid($uuid)->with("perfil")->first();
 
-            if( is_null($user) ) {
+            if (is_null($user)) {
                 throw new Exception("Usuário não encontrado", 404);
             }
 
             return $this->json($user->toArray());
-        }catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -80,7 +80,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $user   = User::where("uuid", "=", $uuid)->first();
+            $user = User::where("uuid", "=", $uuid)->first();
 
             $perfil = Perfil::where("id_user", "=", $user->id)->first();
 
@@ -90,56 +90,63 @@ class UserController extends Controller
             DB::commit();
 
             return $this->json(null, 204);
-        }catch( Exception $e ) {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return $this->jsonException($e);
         }
     }
 
-    public function atualizar( Request $request, string $uuid ): JsonResponse
+    public function atualizar(Request $request, string $uuid): JsonResponse
     {
+        if( empty($request->all()) ) {
+            return $this->jsonMessage("Payload inválida", 422);
+        }
+
         try {
             DB::beginTransaction();
 
             $user   = User::where("uuid", "=", $uuid)->first();
             $perfil = Perfil::where("id_user", "=", $user->id)->first();
 
-            $dataPerfil = $request->input("perfil");
-            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
-            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
+            $dataPerfil             = $request->input("perfil");
+            $dataPerfil["telefone"] = $dataPerfil["telefone"] ? filtrarNumeros($dataPerfil["telefone"]) : null;
+            $dataPerfil["cpf"]      = $dataPerfil["cpf"] ? filtrarNumeros($dataPerfil["cpf"]) : null;
 
-            $dataUser   = $request->all();
+            $dataUser = $request->all();
             unset($dataUser["perfil"]);
             $dataUser["admin"] = false;
 
             $perfil->update($dataPerfil);
             $user->update($dataUser);
 
+            $out["user"] = $user->toArray();
+            $out["user"]["perfil"] = $perfil->toArray();
+
             DB::commit();
 
-            return $this->json(null, 200);
-        }catch( Exception $e ) {
+            return $this->json($out, 200);
+        } catch (Exception $e) {
             DB::rollBack();
 
             return $this->jsonException($e);
         }
     }
 
-    public function admin( string $uuid ): JsonResponse
+    public function admin(string $uuid): JsonResponse
     {
         try {
             DB::beginTransaction();
 
-            $user   = User::where("uuid", "=", $uuid)->first();
+            $user = User::where("uuid", "=", $uuid)->first();
 
             $user->admin = !$user->admin;
             $user->save();
 
             DB::commit();
 
-            return $this->json(null, 200);
-        }catch( Exception $e ) {
+            return $this->json(null);
+        } catch (Exception $e) {
             DB::rollBack();
 
             return $this->jsonException($e);

@@ -4,6 +4,7 @@ namespace Tests\Feature\Users;
 
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 //use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Tests\Feature\TestHelper;
 use Tests\TestCase;
 
@@ -16,12 +17,12 @@ class UserTest extends TestCase
 {
     use MockData;
 
-    private string $url = "/api/user";
+    private string    $url = "/api/user";
     private Generator $faker;
 
-    private array $sexo   = ["M", "F", "O", "N"];
-    private array $genero = ["Masculino", "Feminino", "Outro", "Prefiro não identificar", "Transexual"];
-    private string $jwt   = "";
+    private array  $sexo   = ["M", "F", "O", "N"];
+    private array  $genero = ["Masculino", "Feminino", "Outro", "Prefiro não identificar", "Transexual"];
+    private string $jwt    = "";
 
     protected function setUp(): void
     {
@@ -55,6 +56,16 @@ class UserTest extends TestCase
         return $user;
     }
 
+    public function getUser(string $email = "tester@steward.com.br"): array
+    {
+        $user = User::where("email", "=", $email)->with("perfil")->first();
+        if( is_null($user) ) {
+            return [];
+        }
+
+        return $user->toArray();
+    }
+
     /**
      * A basic feature test example.
      *
@@ -66,10 +77,22 @@ class UserTest extends TestCase
 
         $response = $this->post($this->url, $user);
 
-        if( $response->status() != 201 ) {
+        if ($response->status() != 201) {
             $response->dump();
         }
 
         $response->assertStatus(201)->assertJsonStructure(["uuid_user"]);
+    }
+
+    public function testUpdate()
+    {
+        $this->jwt = TestHelper::login();
+        $user = $this->getUser();
+        $nomeSocial = $this->faker->firstName;
+
+        $user["perfil"]["nome_social"] = $nomeSocial;
+
+        $r = $this->put($this->url . "/" . $user['uuid'], $user, ["Authorization" => $this->jwt]);
+        $r->assertStatus(200)->assertExactJson(["user" => $user]);
     }
 }

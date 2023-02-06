@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post("/user", ['App\Http\Controllers\UserController', "cadastrar"]);
 Route::get("/user", ['App\Http\Controllers\UserController', "listar"])->middleware("jwt:admin");
 Route::get("/user/{uuid}", ['App\Http\Controllers\UserController', "buscar"])->middleware("jwt:self");
-Route::put("/user/{uuid}", ['App\Http\Controllers\UserController', "atualizar"]);
-Route::patch("/user/{uuid}/admin", ['App\Http\Controllers\UserController', "admin"]);
+Route::put("/user/{uuid}", ['App\Http\Controllers\UserController', "atualizar"])->middleware("jwt:self");
+Route::patch("/user/{uuid}/admin", ['App\Http\Controllers\UserController', "admin"])->middleware("jwt:admin");
 Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"])->middleware("jwt:admin");
 
 Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
