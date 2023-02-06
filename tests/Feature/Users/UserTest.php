@@ -4,6 +4,7 @@ namespace Tests\Feature\Users;
 
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 //use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Feature\TestHelper;
 use Tests\TestCase;
 
 use Faker\Factory;
@@ -18,14 +19,16 @@ class UserTest extends TestCase
     private string $url = "/api/user";
     private Generator $faker;
 
-    private $sexo   = ["M", "F", "O", "N"];
-    private $genero = ["Masculino", "Feminino", "Outro", "Prefiro não identificar", "Transexual"];
+    private array $sexo   = ["M", "F", "O", "N"];
+    private array $genero = ["Masculino", "Feminino", "Outro", "Prefiro não identificar", "Transexual"];
+    private string $jwt   = "";
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->faker = Factory::create("pt_BR");
+        $this->jwt   = TestHelper::login();
     }
 
     private function makeData(): array

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
 
 class AuthUser
 {
@@ -15,7 +16,7 @@ class AuthUser
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\JsonResponse
      */
-    public function handle(Request $request, Closure $next, $self = null)
+    public function handle(Request $request, Closure $next, $self = null, ... $params)
     {
         $user = auth()->user();
 
@@ -23,11 +24,21 @@ class AuthUser
             return response()->json(["message" => "Token JWT não encontrado na requisição"], 403);
         }
 
+        if( $user->admin ) {
+            return $next($request);
+        }
+
         if( $self == "self" ) {
-            //$url  = explode("?", $request->getUri())[0];
-            //$uri  = explode("/", $url);
-            //$uuid = $uri[count($uri) - 1];
             $uuid = $request->input("uuid_user");
+            if( is_null($uuid) ) {
+                $url  = explode("?", $request->getRequestUri())[0];
+                $params  = explode("/", $url);
+
+                $uuid = $params[3];
+                if (!Uuid::isValid($uuid)) {
+                    return response()->json(["message" => "UUID inválido..."], 401);
+                }
+            }
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);

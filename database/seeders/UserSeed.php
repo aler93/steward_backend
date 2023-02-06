@@ -20,9 +20,9 @@ class UserSeed extends Seeder
             [
                 "id"       => 1,
                 //"name"     => "Admin",
-                "uuid"     => uuid(),
+                "uuid"     => "a1c7f358-677b-4fa9-8381-c94e08468030",
                 "email"    => "admin@steward.com.br",
-                "password" => Hash::make("admin123"),
+                "password" => Hash::make(env("ADMIN_PASS")),
                 "admin"    => true,
             ],
             [
@@ -30,15 +30,15 @@ class UserSeed extends Seeder
                 //"name"     => "Alisson Naimayer",
                 "uuid"     => "e3ee1e8a-2833-4f7c-9c56-b7c338935b7b",
                 "email"    => "anaimayer3@gmail.com",
-                "password" => Hash::make("11351892"),
+                "password" => Hash::make(env("TESTER_PASS")),
                 "admin"    => true,
             ],
             [
                 "id"       => 3,
                 //"name"     => "Testes",
                 "uuid"     => "4a367edf-afff-4681-b6c7-d7b7deb6f99a",
-                "email"    => "testes@gmail.com",
-                "password" => Hash::make("11351892"),
+                "email"    => "tester@steward.com.br",
+                "password" => Hash::make(env("TESTER_PASS")),
                 "admin"    => false,
             ],
         ];
@@ -46,6 +46,6 @@ class UserSeed extends Seeder
         DB::table("users")->insertOrIgnore($users);
 
         $n = DB::table("users")->select()->get()->count() + 1;
-        DB::statement("ALTER SEQUENCE users_id_seq RESTART WITH 4;");
+        DB::statement("ALTER SEQUENCE users_id_seq RESTART WITH $n;");
     }
 }
