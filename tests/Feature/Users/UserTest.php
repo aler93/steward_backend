@@ -56,16 +56,6 @@ class UserTest extends TestCase
         return $user;
     }
 
-    public function getUser(string $email = "tester@steward.com.br"): array
-    {
-        $user = User::where("email", "=", $email)->with("perfil")->first();
-        if (is_null($user)) {
-            return [];
-        }
-
-        return $user->toArray();
-    }
-
     /**
      * A basic feature test example.
      *

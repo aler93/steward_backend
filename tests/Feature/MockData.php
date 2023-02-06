@@ -2,8 +2,30 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+
 trait MockData
 {
+    private static function mod($dividendo, $divisor): float
+    {
+        return round($dividendo - (floor($dividendo / $divisor) * $divisor));
+    }
+
+    public function getUser(string $email = "tester@steward.com.br"): array
+    {
+        if( strlen($email) <= 0 ) {
+            $user = User::with("perfil")->get()->random();
+        } else {
+            $user = User::where("email", "=", $email)->with("perfil")->first();
+        }
+
+        if (is_null($user)) {
+            return [];
+        }
+
+        return $user->toArray();
+    }
+
     public static function cpf($mascara = true)
     {
         $n1 = rand(0, 9);
@@ -68,8 +90,10 @@ trait MockData
         return $retorno;
     }
 
-    private static function mod($dividendo, $divisor): float
+    public function produto(): string
     {
-        return round($dividendo - (floor($dividendo / $divisor) * $divisor));
+        $produtos = [""];
+
+        return $produtos[rand(0, 1)];
     }
 }

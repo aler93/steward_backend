@@ -8,10 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class ListaRepository
 {
-    public function cadastrarLista(array $lista)
+    public function cadastrarLista(array $lista): array
     {
-        try{
+        try {
             DB::beginTransaction();
+
+            $out = $lista;
+            unset($out["id_user"]);
 
             $produtos = $lista["produtos"];
             unset($lista["produtos"]);
@@ -22,7 +25,9 @@ class ListaRepository
             $this->cadastrarProdutosLista($produtos, $lista->id);
 
             DB::commit();
-        }catch (Exception $e) {
+
+            return $out;
+        } catch (Exception $e) {
             DB::rollBack();
 
             throw $e;
@@ -34,7 +39,7 @@ class ListaRepository
         $rows = [];
 
         $ordem = 0;
-        foreach( $produtos as $row ) {
+        foreach ($produtos as $row) {
             $ordem++;
 
             $rows[] = [

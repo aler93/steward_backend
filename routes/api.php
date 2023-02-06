@@ -27,7 +27,7 @@ Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"]
 
 Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
 Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
-Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"]);
+Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"])->middleware('jwt');
 Route::get("/get-me", ["App\Http\Controllers\LoginController", "getMe"]);
 
 // Listas de mercados e etc.
@@ -40,24 +40,28 @@ Route::prefix("/mercado")->group(function() {
     Route::middleware('jwt')->group(function() {
         // Lista
         Route::patch("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarStatusLista"]);
-        Route::put("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
+        //Route::put("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
         Route::get("/lista/{uuid_lista}/detalhar", ["App\Http\Controllers\Mercado\ListaController", "obterLista"]);
         Route::delete("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "removerLista"]);
 
-        // Produtos
+        // Produtos da lista
         Route::patch("/lista/produto/{id_produto}", ["App\Http\Controllers\Mercado\ListaController", "atualizarStatusProduto"]);
         Route::post("/lista/produto/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "adicionarProduto"]);
         Route::delete("/lista/produto/{id_produto}", ["App\Http\Controllers\Mercado\ListaController", "removerProduto"]);
     });
 });
 
+// Produtos API
 Route::prefix("/produto")->group(function(){
+    // Categorias
+    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
+
     Route::middleware('jwt:admin')->group(function() {
         Route::post("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarCategoria"]);
         Route::delete("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "deletarCategoria"]);
     });
 
-    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
+    // Produtos
 });
 
 // Parte relacionada a saúde
@@ -67,7 +71,7 @@ Route::prefix("/saude")->group(function(){
     });
 
     Route::middleware('jwt')->group(function() {
-        Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        Route::get("/estatistica/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
         Route::post("/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
     });
 });
@@ -77,5 +81,4 @@ Route::prefix("/admin")->group(function(){
     Route::middleware('jwt:admin')->group(function() {
         Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
     });
-    //Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
 });

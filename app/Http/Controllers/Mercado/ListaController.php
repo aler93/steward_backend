@@ -13,23 +13,28 @@ class ListaController extends Controller
 {
     private ListaRepository $repository;
 
-    public function __construct(ListaRepository $repository)
+    public function __construct(Request $request, ListaRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    public function cadastrarLista(Request $request)
+    public function cadastrarLista(Request $request, string $userUuid)
     {
         try {
+            /** @noinspection PhpUndefinedFieldInspection */
+            if ($userUuid != auth()->user()->uuid) {
+                throw new Exception("Usuário não pode alterar esta lista", 401);
+            }
             $dados = $request->input("lista");
 
-            $dados["uuid"]    = uuid();
+            $dados["uuid"] = uuid();
+            /** @noinspection PhpUndefinedFieldInspection */
             $dados["id_user"] = auth()->user()->id;
 
-            $this->repository->cadastrarLista($dados);
+            $out = $this->repository->cadastrarLista($dados);
 
-            return $this->jsonCreated("Lista cadastrada com sucesso");
-        } catch( Exception $e ) {
+            return $this->jsonCreated("Lista cadastrada com sucesso", $out);
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -38,7 +43,7 @@ class ListaController extends Controller
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
-            if( is_null($lista) ) {
+            if (is_null($lista)) {
                 throw new Exception("Lista não encontrada", 404);
             }
 
@@ -46,7 +51,7 @@ class ListaController extends Controller
             $lista->save();
 
             return $this->jsonMessage("Status da lista atualizado");
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -61,20 +66,20 @@ class ListaController extends Controller
 
             $dados = ListaUser::where("id_user", "=", $user->id)->limit($limit)->offset($offset);
 
-            if( $request->input("filter") == "pendentes" ) {
+            if ($request->input("filter") == "pendentes") {
                 $dados = ListaUser::where("status", "=", false);
             }
-            if( $request->input("filter") == "concluidas" ) {
+            if ($request->input("filter") == "concluidas") {
                 $dados = ListaUser::where("status", "=", true);
             }
 
             $saida = $dados->orderByDesc("created_at")->get()->toArray();
-            foreach( $saida as &$row ) {
+            foreach ($saida as &$row) {
                 $row["data_compra_f"] = date("d/m/Y", strtotime($row["data_compra"]));
             }
 
             return $this->json(["listas" => $saida]);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -83,16 +88,16 @@ class ListaController extends Controller
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
-            if( is_null($lista) ) {
+            if (is_null($lista)) {
                 return $this->jsonMessage("Nenhuma lista cadastrada", 404);
             }
             $produtos = ListaProduto::where("id_lista", "=", $lista->id)->orderBy("status")->orderBy("ordem")->get();
-            
-            $lista = $lista->toArray();
+
+            $lista             = $lista->toArray();
             $lista["produtos"] = $produtos->toArray();
 
             return $this->json(["lista" => $lista]);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -106,7 +111,7 @@ class ListaController extends Controller
             $lista->forceDelete();
 
             return $this->jsonNoContent();
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -115,7 +120,7 @@ class ListaController extends Controller
     {
         try {
             $prod = ListaProduto::where("id", "=", $idProduto)->first();
-            if( is_null($prod) ) {
+            if (is_null($prod)) {
                 throw new Exception("Produto não encontrado", 404);
             }
 
@@ -123,7 +128,7 @@ class ListaController extends Controller
             $prod->save();
 
             return $this->jsonMessage("Status do produto atualizado");
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -132,11 +137,11 @@ class ListaController extends Controller
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
-            if( is_null($lista) ) {
+            if (is_null($lista)) {
                 throw new Exception("Lista não encontrado", 404);
             }
 
-            if( $lista->status ) {
+            if ($lista->status) {
                 throw new Exception("Essa lista já foi concluída", 400);
             }
 
@@ -153,7 +158,7 @@ class ListaController extends Controller
             $lp->save();
 
             return $this->jsonCreated("Produto adicionado na lista");
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
@@ -162,18 +167,18 @@ class ListaController extends Controller
     {
         try {
             $prod = ListaProduto::where("id", "=", $idProduto)->first();
-            if( is_null($prod) ) {
+            if (is_null($prod)) {
                 throw new Exception("Produto não encontrado", 404);
             }
 
-            if( $prod->status ) {
+            if ($prod->status) {
                 throw new Exception("Produto já foi obtido", 400);
             }
 
             $prod->forceDelete();
 
             return $this->jsonMessage("", 204);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
