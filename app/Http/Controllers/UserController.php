@@ -99,7 +99,7 @@ class UserController extends Controller
 
     public function atualizar(Request $request, string $uuid): JsonResponse
     {
-        if( empty($request->all()) ) {
+        if (empty($request->all())) {
             return $this->jsonMessage("Payload inválida", 422);
         }
 
@@ -120,12 +120,12 @@ class UserController extends Controller
             $perfil->update($dataPerfil);
             $user->update($dataUser);
 
-            $out["user"] = $user->toArray();
+            $out["user"]           = $user->toArray();
             $out["user"]["perfil"] = $perfil->toArray();
 
             DB::commit();
 
-            return $this->json($out, 200);
+            return $this->json($out);
         } catch (Exception $e) {
             DB::rollBack();
 
