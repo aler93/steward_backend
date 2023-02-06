@@ -18,7 +18,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $uuid = uuid();
-            $data = array_merge($request->all(), ["uuid" => $uuid, "name" => $request->input("perfil")["nome"]]);
+            $data = array_merge($request->all(), ["uuid" => $uuid]);
 
             $data["password"]        = Hash::make($data["password"]);
             $data["change_password"] = false;
@@ -31,6 +31,7 @@ class UserController extends Controller
 
             $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
             $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
+            $dataPerfil["sexo"]     = strtoupper($dataPerfil["sexo"]);
 
             $perfil = new Perfil($dataPerfil);
             $perfil->save();

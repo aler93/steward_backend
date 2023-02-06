@@ -14,11 +14,14 @@ class Perfil extends Model
     protected $fillable = [
         "id_user",
         "nome",
+        "nome_social",
         "cpf",
         "cpf_responsavel",
         "telefone",
         "altura",
         "avatar_url",
+        "sexo",
+        "genero",
         "created_at",
         "updated_at",
     ];

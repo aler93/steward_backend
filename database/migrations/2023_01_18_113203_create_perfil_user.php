@@ -17,10 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
             $table->string("nome", 80);
+            $table->string("nome_social", 80)->nullable();
             $table->string("cpf", 11)->nullable();
             $table->boolean("cpf_responsavel")->default(false);
             $table->string("telefone", 11)->nullable();
             $table->float("altura")->nullable();
+            $table->string("sexo", 1)->nullable()->default("N");
+            $table->string("genero", 30)->nullable();
             $table->text("avatar_url")->nullable();
             $table->timestamps();
         });

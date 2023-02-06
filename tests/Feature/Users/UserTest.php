@@ -18,6 +18,9 @@ class UserTest extends TestCase
     private string $url = "/api/user";
     private Generator $faker;
 
+    private $sexo   = ["M", "F", "O", "N"];
+    private $genero = ["Masculino", "Feminino", "Outro", "Prefiro não identificar", "Transexual"];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,13 +34,16 @@ class UserTest extends TestCase
 
         $perfil = [
             "nome"            => $name,
+            "nome_social"     => $name,
             "cpf"             => self::cpf(rand(0, 1)),
             "cpf_responsavel" => (rand(0, 20) % 5) == 0 ? 1 : 0,
             "telefone"        => $this->faker->phoneNumber(),
-            "altura"          => $this->faker->randomFloat(2, 1.2, 2.3),
+            "altura"          => $this->faker->randomFloat(2, 1.4, 2.2),
+            "sexo"            => $this->sexo[rand(0, 3)],
+            "genero"          => $this->genero[rand(0, 4)],
         ];
         $user   = [
-            "nome"     => $name,
+            //"nome"     => $name,
             "email"    => $this->faker->email,
             "password" => $this->faker->password,
             "perfil"   => $perfil
@@ -56,6 +62,10 @@ class UserTest extends TestCase
         $user = $this->makeData();
 
         $response = $this->post($this->url, $user);
+
+        if( $response->status() != 201 ) {
+            $response->dump();
+        }
 
         $response->assertStatus(201)->assertJsonStructure(["uuid_user"]);
     }

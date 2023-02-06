@@ -56,7 +56,7 @@ class CategoriaProdutoSeed extends Seeder
 
         DB::table("categorias_produtos")->insert($categoriasBases);
 
-        DB::statement("ALTER SEQUENCE categorias_produtos_id_seq RESTART WITH 100;");
+        DB::statement("ALTER SEQUENCE categorias_produtos_id_seq RESTART WITH 10;");
 
         $categorias = [
             // Higiene 1
@@ -209,6 +209,9 @@ class CategoriaProdutoSeed extends Seeder
             ],
         ];
 
-        DB::table("categorias_produtos")->insert($categorias);
+        DB::table("categorias_produtos")->insertOrIgnore($categorias);
+
+        $n = DB::table("categorias_produtos")->select()->get()->count() + 1;
+        DB::statement("ALTER SEQUENCE categorias_produtos_id_seq RESTART WITH $n;");
     }
 }

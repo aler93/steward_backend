@@ -74,9 +74,8 @@ Route::prefix("/saude")->group(function(){
 
 // Parte Admin
 Route::prefix("/admin")->group(function(){
-    //Route::middleware('jwt:admin')->group(function() {
-    //    Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
-    //});
-
-    Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
+    Route::middleware('jwt:admin')->group(function() {
+        Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
+    });
+    //Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
 });

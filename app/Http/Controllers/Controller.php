@@ -49,7 +49,7 @@ class Controller extends BaseController
         return $this->json($response, $status);
     }
 
-    protected function jsonException(Exception $e): jsonResponse
+    protected function jsonException(Exception $e, $status = 500): jsonResponse
     {
         $resp = [
             "message" => $e->getMessage(),
@@ -60,6 +60,6 @@ class Controller extends BaseController
             $resp["trace"] = $e->getTrace();
         }
 
-        return $this->json($resp);
+        return $this->json($resp, $status);
     }
 }

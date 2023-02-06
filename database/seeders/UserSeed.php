@@ -33,8 +33,19 @@ class UserSeed extends Seeder
                 "password" => Hash::make("11351892"),
                 "admin"    => true,
             ],
+            [
+                "id"       => 3,
+                //"name"     => "Testes",
+                "uuid"     => "4a367edf-afff-4681-b6c7-d7b7deb6f99a",
+                "email"    => "testes@gmail.com",
+                "password" => Hash::make("11351892"),
+                "admin"    => false,
+            ],
         ];
 
-        DB::table("users")->insert($users);
+        DB::table("users")->insertOrIgnore($users);
+
+        $n = DB::table("users")->select()->get()->count() + 1;
+        DB::statement("ALTER SEQUENCE users_id_seq RESTART WITH 4;");
     }
 }
