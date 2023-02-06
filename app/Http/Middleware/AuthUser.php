@@ -39,6 +39,12 @@ class AuthUser
             }
         }
 
+        if( $self == "dev" ) {
+            if( !$user->dev ) {
+                return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
+            }
+        }
+
         return $next($request);
     }
 }
