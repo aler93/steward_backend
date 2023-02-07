@@ -17,11 +17,13 @@ class ProdutoSeed extends Seeder
      */
     public function run()
     {
-        $legumes = CategoriaProduto::where("nome", "=", "Legumes")->first();
-        $frutas  = CategoriaProduto::where("nome", "=", "Frutas")->first();
-        $ovos    = CategoriaProduto::where("nome", "=", "Ovos")->first();
-        $carnes  = CategoriaProduto::where("nome", "=", "Carnes")->first();
-        $frios   = CategoriaProduto::where("nome", "=", "Frios")->first();
+        $legumes    = CategoriaProduto::where("nome", "=", "Legumes")->first();
+        $frutas     = CategoriaProduto::where("nome", "=", "Frutas")->first();
+        $ovos       = CategoriaProduto::where("nome", "=", "Ovos")->first();
+        $carnes     = CategoriaProduto::where("nome", "=", "Carnes")->first();
+        $frios      = CategoriaProduto::where("nome", "=", "Frios")->first();
+        $padaria    = CategoriaProduto::where("nome", "=", "Padaria")->first();
+        $sobremesas = CategoriaProduto::where("nome", "=", "Sobremesas")->first();
 
         /*
          template:
@@ -561,7 +563,133 @@ class ProdutoSeed extends Seeder
             [
                 "uuid"                   => uuid(),
                 "id_categoria"           => $carnes->id,
+                "nome"                   => "Almôndegas",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $carnes->id,
                 "nome"                   => "Fruto do mar",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Empanados de frango",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Lasanha congelada",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Pizza congelada",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Torta congelada",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Hambúrger",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Waffle",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Pão de queijo",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $frios->id,
+                "nome"                   => "Queijo",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão de forma",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão cacetinho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão sovadinho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão de cachorro quente",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão de hambúrger",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão de alho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Pão Sírio",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $padaria->id,
+                "nome"                   => "Wrap",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $sobremesas->id,
+                "nome"                   => "Sorvete",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $sobremesas->id,
+                "nome"                   => "Barra de chocolate",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $sobremesas->id,
+                "nome"                   => "Iogurte",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $sobremesas->id,
+                "nome"                   => "Chantilly",
                 "informacao_nutricional" => []
             ],
         ];
@@ -574,7 +702,7 @@ class ProdutoSeed extends Seeder
         }
 
         $batch = array_chunk($produtos, 250);
-        foreach( $batch as $insert ) {
+        foreach ($batch as $insert) {
             DB::table("produtos")->insert($insert);
         }
     }
