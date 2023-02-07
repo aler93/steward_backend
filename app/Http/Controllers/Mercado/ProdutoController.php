@@ -44,14 +44,36 @@ class ProdutoController extends Controller
         }
     }
 
-    public function obterListas()
+    public function obterCategorias()
     {
         $cols = ["categorias_produtos.id", "categorias_produtos.nome", "cp.nome AS categoria"];
         try {
-            $categorias = CategoriaProduto::select($cols)->leftJoin("categorias_produtos AS cp", "cp.id", "=", "categorias_produtos.id_categoria")
-            ->get();
+            $categorias = CategoriaProduto::select($cols)
+                                          ->leftJoin("categorias_produtos AS cp", "cp.id", "=", "categorias_produtos.id_categoria")
+                                          ->get();
 
             return $this->json(["categorias" => $categorias->toArray()]);
+        } catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function obterProdutos(Request $request)
+    {
+        try {
+            $cols = ["produtos.uuid", "produtos.nome", "cp.nome AS categoria", "produtos.descricao", "produtos.informacao_nutricional"];
+            $produtos = Produto::select($cols)->leftJoin("categorias_produtos AS cp", "cp.id", "=", "produtos.id_categoria");
+
+            if( $request->input("id_categoria") ) {
+                $produtos->where("produtos.id_categoria", "=", $request->input("id_categoria"));
+            }
+
+            $produtos = $produtos->get()->toArray();
+            array_walk($produtos, function(&$row) {
+                $row["informacao_nutricional"] = json_decode($row["informacao_nutricional"]);
+            });
+
+            return $this->json(["produtos" => $produtos]);
         } catch( Exception $e ) {
             return $this->jsonException($e);
         }

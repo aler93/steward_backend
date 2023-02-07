@@ -54,7 +54,7 @@ Route::prefix("/mercado")->group(function() {
 // Produtos API
 Route::prefix("/produto")->group(function(){
     // Categorias
-    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
+    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterCategorias"]);
 
     Route::middleware('jwt:admin')->group(function() {
         Route::post("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarCategoria"]);
@@ -62,6 +62,7 @@ Route::prefix("/produto")->group(function(){
     });
 
     // Produtos
+    Route::get("/", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutos"]);
 });
 
 // Parte relacionada a saúde
