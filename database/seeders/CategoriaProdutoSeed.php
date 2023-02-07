@@ -113,6 +113,10 @@ class CategoriaProdutoSeed extends Seeder
                 "nome"         => "Diet/Fitness",
                 "id_categoria" => 2,
             ],
+            [
+                "nome"         => "Temperos",
+                "id_categoria" => 2,
+            ],
             // Bebidas 3
             [
                 "nome"         => "Álcool",
