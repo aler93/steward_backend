@@ -86,7 +86,11 @@ class CategoriaProdutoSeed extends Seeder
                 "id_categoria" => 2,
             ],
             [
-                "nome"         => "Hortifruti",
+                "nome"         => "Legumes",
+                "id_categoria" => 2,
+            ],
+            [
+                "nome"         => "Frutas",
                 "id_categoria" => 2,
             ],
             [
