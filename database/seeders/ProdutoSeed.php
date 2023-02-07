@@ -17,13 +17,15 @@ class ProdutoSeed extends Seeder
      */
     public function run()
     {
-        $legumes    = CategoriaProduto::where("nome", "=", "Legumes")->first();
-        $frutas     = CategoriaProduto::where("nome", "=", "Frutas")->first();
-        $ovos       = CategoriaProduto::where("nome", "=", "Ovos")->first();
-        $carnes     = CategoriaProduto::where("nome", "=", "Carnes")->first();
-        $frios      = CategoriaProduto::where("nome", "=", "Frios")->first();
-        $padaria    = CategoriaProduto::where("nome", "=", "Padaria")->first();
-        $sobremesas = CategoriaProduto::where("nome", "=", "Sobremesas")->first();
+        $legumes     = CategoriaProduto::where("nome", "=", "Legumes")->first();
+        $frutas      = CategoriaProduto::where("nome", "=", "Frutas")->first();
+        $ovos        = CategoriaProduto::where("nome", "=", "Ovos")->first();
+        $carnes      = CategoriaProduto::where("nome", "=", "Carnes")->first();
+        $frios       = CategoriaProduto::where("nome", "=", "Frios")->first();
+        $padaria     = CategoriaProduto::where("nome", "=", "Padaria")->first();
+        $sobremesas  = CategoriaProduto::where("nome", "=", "Sobremesas")->first();
+        $dietFitness = CategoriaProduto::where("nome", "=", "Diet/Fitness")->first();
+        $temperos    = CategoriaProduto::where("nome", "=", "Temperos")->first();
 
         /*
          template:
