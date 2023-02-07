@@ -86,6 +86,14 @@ class CategoriaProdutoSeed extends Seeder
                 "id_categoria" => 2,
             ],
             [
+                "nome"         => "Ovos",
+                "id_categoria" => 2,
+            ],
+            /*[
+                "nome"         => "Pratos prontos",
+                "id_categoria" => 2,
+            ],*/
+            [
                 "nome"         => "Legumes",
                 "id_categoria" => 2,
             ],
