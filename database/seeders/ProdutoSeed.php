@@ -17,7 +17,7 @@ class ProdutoSeed extends Seeder
      */
     public function run()
     {
-        $hortifruti = CategoriaProduto::where("nome", "=", "Hortifruti")->first();
+        $legumes = CategoriaProduto::where("nome", "=", "Legumes")->first();
 
         /*
          template:
@@ -33,7 +33,7 @@ class ProdutoSeed extends Seeder
             // Hortifruti
             [
                 "uuid"                   => uuid(),
-                "id_categoria"           => $hortifruti->id,
+                "id_categoria"           => $legumes->id,
                 "nome"                   => "Abacate",
                 "informacao_nutricional" => [
                     "quantidade" => "100 gramas",
@@ -66,7 +66,7 @@ class ProdutoSeed extends Seeder
             ],
             [
                 "uuid"                   => uuid(),
-                "id_categoria"           => $hortifruti->id,
+                "id_categoria"           => $legumes->id,
                 "nome"                   => "Abacaxi",
                 "informacao_nutricional" => [
                     "quantidade" => "100 gramas",
@@ -95,6 +95,180 @@ class ProdutoSeed extends Seeder
                         "cobalamina"      => ["nome" => "Cobalamina (µg)", "valor" => 0, "unidade" => "µg"],
                     ]
                 ]
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Alface",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Alho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Aspargo",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Batata doce",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Batata inglesa",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Beringela",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Beterraba",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Brócolis",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Cebola",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Cebola",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Cebola roxa",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Cenoura",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Chuchu",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Couve flor",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Gengibre",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Milho verde",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Moranga",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Nabo",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Palmito",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pepino japonês",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pepino salada",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pimenta",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pimentão amarelo",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pimentão verde",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Pimentão vermelho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Repolho",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Tomate",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Tomate cereja",
+                "informacao_nutricional" => []
+            ],
+            [
+                "uuid"                   => uuid(),
+                "id_categoria"           => $legumes->id,
+                "nome"                   => "Vagem",
+                "informacao_nutricional" => []
             ],
         ];
 
