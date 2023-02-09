@@ -63,6 +63,12 @@ Route::prefix("/produto")->group(function(){
 
     // Produtos
     Route::get("/", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutos"]);
+    Route::get("/{uuid_produto}", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutoDetalhes"]);
+    Route::middleware('jwt:admin')->group(function() {
+        Route::post("/", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarProduto"]);
+        Route::put("/{uuid_produto}", ["App\Http\Controllers\Mercado\ProdutoController", "atualizarProdutos"]);
+        Route::delete("/{uuid_produto}", ["App\Http\Controllers\Mercado\ProdutoController", "deletarProdutos"]);
+    });
 });
 
 // Parte relacionada a saúde
