@@ -68,7 +68,7 @@ class ProdutoController extends Controller
                 $produtos->where("produtos.id_categoria", "=", $request->input("id_categoria"));
             }
             if( $request->input("nome") ) {
-                $produtos->where("produtos.nome", "like", $request->input("id_categoria"));
+                $produtos->orWhere("produtos.nome", "like", like($request->input("id_categoria")));
             }
 
             $produtos = $produtos->get()->toArray();

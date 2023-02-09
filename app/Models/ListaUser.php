@@ -5,6 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\ListaUser
+ *
+ * @property int $id
+ * @property string $uuid
+ * @property int $id_user
+ * @property string|null $data_compra
+ * @property bool $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ListaProduto> $produtos
+ * @property-read int|null $produtos_count
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereDataCompra($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereIdUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereUuid($value)
+ * @mixin \Eloquent
+ */
 class ListaUser extends Model
 {
     use HasFactory;

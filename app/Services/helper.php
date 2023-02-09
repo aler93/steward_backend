@@ -13,3 +13,9 @@ if( !function_exists('filtrarNumeros') ) {
         return preg_replace('/[^0-9]/', '', $str);
     }
 }
+
+if( !function_exists('like') ) {
+    function like(string $str): string {
+        return "%" . $str . "%";
+    }
+}
