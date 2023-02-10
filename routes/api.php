@@ -87,5 +87,9 @@ Route::prefix("/saude")->group(function(){
 Route::prefix("/admin")->group(function(){
     Route::middleware('jwt:admin')->group(function() {
         Route::get("/backup/categoria-produtos", ["App\Http\Controllers\Admin\BackupController", "categoriaProdutos"]);
+        //Route::get("/logs", ["App\Http\Controllers\Admin\BackupController", "readDir"]);
     });
+
+    Route::get("/directory", ["App\Http\Controllers\Admin\BackupController", "readDir"]);
+    Route::get("/open-file", ["App\Http\Controllers\Admin\BackupController", "readFile"]);
 });
