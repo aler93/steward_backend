@@ -11,14 +11,16 @@ use Exception;
 
 class UsuarioController extends Controller
 {
-    public function estatisticas(string $uuidUser, Request $request)
+    public function estatisticas(Request $request)
     {
+        $userId = auth()->user()->id;
+
         $limit  = $request->input("limit") ?? 50;
         $offset = $request->input("offset") ?? 0;
 
         try {
-            $user  = User::where("uuid", "=", $uuidUser)->first();
-            $dados = UserImc::where("id_user", "=", $user->id)->orderByDesc("data_hora")->limit($limit)->offset($offset)->get();
+            //$user  = User::where("id", "=", $userId)->first();
+            $dados = UserImc::where("id_user", "=", $userId)->orderByDesc("data_hora")->limit($limit)->offset($offset)->get();
 
             foreach ($dados as &$row) {
                 $row["imc"] = round($row["massa_corporal"] / ($row["altura"] ** 2), 2);
@@ -30,17 +32,16 @@ class UsuarioController extends Controller
         }
     }
 
-    public function salvar(Request $request, string $uuidUser)
+    public function salvar(Request $request)
     {
+        $userId = auth()->user()->id;
+
         try {
             if (is_null($request->input("data_hora"))) {
                 return $this->jsonMessage("Adicione a informação de data e hora", 422);
             }
-            $user = User::where("uuid", "=", $uuidUser)->first();
-            if (is_null($user)) {
-                return $this->jsonMessage("Usuário não encontrado", 404);
-            }
-            $perfil = Perfil::where("id_user", "=", $user->id)->first();
+
+            $perfil = Perfil::where("id_user", "=", $userId)->first();
             if (is_null($perfil->altura) and is_null($request->input("altura"))) {
                 return $this->jsonMessage("Não é possível salvar sem a informação de altura", 400);
             }
@@ -51,7 +52,7 @@ class UsuarioController extends Controller
             }
 
             $dados = [
-                "id_user"        => $user->id,
+                "id_user"        => $userId,
                 "altura"         => $perfil->altura,
                 "data_hora"      => $request->input("data_hora"),
                 "massa_corporal" => $request->input("massa_corporal"),

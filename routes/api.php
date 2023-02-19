@@ -70,12 +70,8 @@ Route::prefix("/produto")->group(function () {
 // Parte relacionada a saúde
 Route::prefix("/saude")->group(function () {
     Route::middleware('jwt:self')->group(function () {
-        //Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
-    });
-
-    Route::middleware('jwt')->group(function () {
-        Route::get("/estatistica/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
-        Route::post("/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
+        Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
     });
 });
 
