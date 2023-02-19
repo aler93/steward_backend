@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Perfil;
 use App\Models\User;
 use App\Models\UserImc;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 
 class UsuarioController extends Controller
 {
-    public function estatisticas(Request $request)
+    public function estatisticas(Request $request): JsonResponse
     {
         $userId = auth()->user()->id;
 
@@ -32,7 +33,7 @@ class UsuarioController extends Controller
         }
     }
 
-    public function salvar(Request $request)
+    public function salvar(Request $request): JsonResponse
     {
         $userId = auth()->user()->id;
 
