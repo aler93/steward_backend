@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ProdutoRepository
 {
     private $colsSimple = ["produtos.uuid", "produtos.nome", "cp.nome AS categoria", "produtos.descricao"];
-    private $colsFull   = ["produtos.uuid", "produtos.nome", "cp.nome AS categoria", "produtos.descricao", "produtos.informacao_nutricional"];
+    //private $colsFull   = ["produtos.uuid", "produtos.nome", "cp.nome AS categoria", "produtos.descricao", "produtos.informacao_nutricional"];
 
     public function obterProdutos(Request $request, bool $full = false): array
     {

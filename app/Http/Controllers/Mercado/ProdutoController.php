@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mercado;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ProdutoRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Produto;
 use Exception;
@@ -18,7 +19,7 @@ class ProdutoController extends Controller
         $this->repository = $produtoRepository;
     }
 
-    public function obterProdutos(Request $request)
+    public function obterProdutos(Request $request): JsonResponse
     {
         try {
             $produtos = $this->repository->obterProdutos($request);
@@ -29,7 +30,7 @@ class ProdutoController extends Controller
         }
     }
 
-    public function obterProdutosPorCategoria(Request $request)
+    public function obterProdutosPorCategoria(Request $request): JsonResponse
     {
         $output = [];
         try {
@@ -51,7 +52,7 @@ class ProdutoController extends Controller
         }
     }
 
-    public function obterProdutoDetalhes(string $uuid, Request $request)
+    public function obterProdutoDetalhes(string $uuid, Request $request): JsonResponse
     {
         try {
             $produto = Produto::select($this->cols)

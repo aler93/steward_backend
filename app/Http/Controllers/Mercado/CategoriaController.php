@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Mercado;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoriaProduto;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 
 class CategoriaController extends Controller
 {
-    public function cadastrarCategoria(Request $request)
+    public function cadastrarCategoria(Request $request): JsonResponse
     {
         try {
             $nome = ucfirst(strtolower($request->input("nome")));
@@ -32,7 +33,7 @@ class CategoriaController extends Controller
         }
     }
 
-    public function deletarCategoria(int $id)
+    public function deletarCategoria(int $id): JsonResponse
     {
         try {
             CategoriaProduto::where("id", "=", $id)->forceDelete();
@@ -43,7 +44,7 @@ class CategoriaController extends Controller
         }
     }
 
-    public function obterCategorias()
+    public function obterCategorias(): JsonResponse
     {
         $cols = ["categorias_produtos.id", "categorias_produtos.nome", "cp.nome AS categoria"];
         try {

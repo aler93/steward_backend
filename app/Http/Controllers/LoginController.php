@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $credentials = request(['email', 'password']);
         $ttl         = env("JWT_EXPIRE", 4) * 60 * 60;
@@ -29,7 +30,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         try {
             auth()->logout();
@@ -40,7 +41,7 @@ class LoginController extends Controller
         }
     }
 
-    public function refresh(Request $request)
+    public function refresh(Request $request): JsonResponse
     {
         try {
             $token = auth()->refresh();
@@ -51,7 +52,7 @@ class LoginController extends Controller
         }
     }
 
-    public function getMe()
+    public function getMe(): JsonResponse
     {
         try {
             $user = auth()->user();

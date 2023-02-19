@@ -7,6 +7,7 @@ use App\Models\ListaProduto;
 use App\Models\ListaUser;
 use App\Repositories\ListaRepository;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ListaController extends Controller
@@ -18,17 +19,15 @@ class ListaController extends Controller
         $this->repository = $repository;
     }
 
-    public function cadastrarLista(Request $request, string $userUuid)
+    public function cadastrarLista(Request $request, string $userUuid): JsonResponse
     {
         try {
-            /** @noinspection PhpUndefinedFieldInspection */
             if ($userUuid != auth()->user()->uuid) {
                 throw new Exception("Usuário não pode alterar esta lista", 401);
             }
             $dados = $request->input("lista");
 
             $dados["uuid"] = uuid();
-            /** @noinspection PhpUndefinedFieldInspection */
             $dados["id_user"] = auth()->user()->id;
 
             $out = $this->repository->cadastrarLista($dados);
@@ -39,7 +38,7 @@ class ListaController extends Controller
         }
     }
 
-    public function atualizarStatusLista(string $uuidLista)
+    public function atualizarStatusLista(string $uuidLista): JsonResponse
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
@@ -56,7 +55,7 @@ class ListaController extends Controller
         }
     }
 
-    public function listasDoUsuario(Request $request)
+    public function listasDoUsuario(Request $request): JsonResponse
     {
         $limit  = $request->input("limit") ?? 15;
         $offset = $request->input("offset") ?? 0;
@@ -84,7 +83,7 @@ class ListaController extends Controller
         }
     }
 
-    public function obterLista(string $uuidLista)
+    public function obterLista(string $uuidLista): JsonResponse
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
@@ -102,7 +101,7 @@ class ListaController extends Controller
         }
     }
 
-    public function removerLista(string $uuidLista)
+    public function removerLista(string $uuidLista): JsonResponse
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
@@ -116,7 +115,7 @@ class ListaController extends Controller
         }
     }
 
-    public function atualizarStatusProduto(int $idProduto)
+    public function atualizarStatusProduto(int $idProduto): JsonResponse
     {
         try {
             $prod = ListaProduto::where("id", "=", $idProduto)->first();
@@ -133,7 +132,7 @@ class ListaController extends Controller
         }
     }
 
-    public function adicionarProduto(Request $request, string $uuidLista)
+    public function adicionarProduto(Request $request, string $uuidLista): JsonResponse
     {
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
@@ -163,7 +162,7 @@ class ListaController extends Controller
         }
     }
 
-    public function removerProduto(int $idProduto)
+    public function removerProduto(int $idProduto): JsonResponse
     {
         try {
             $prod = ListaProduto::where("id", "=", $idProduto)->first();

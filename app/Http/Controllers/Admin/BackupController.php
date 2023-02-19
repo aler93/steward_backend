@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\BackupRepository;
 use Illuminate\Support\Facades\Storage;
@@ -28,7 +29,7 @@ class BackupController extends Controller
         echo $str;
     }
 
-    public function readDir(Request $request)
+    public function readDir(Request $request): JsonResponse
     {
         $dir = $request->input("dir");
         try {
@@ -42,7 +43,7 @@ class BackupController extends Controller
         }
     }
 
-    public function readFile(Request $request)
+    public function readFile(Request $request): JsonResponse
     {
         $file = $request->input("dir");
 
