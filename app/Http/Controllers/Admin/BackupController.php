@@ -21,7 +21,7 @@ class BackupController extends Controller
     public function categoriaProdutos()
     {
         $categorias = CategoriaProduto::all();
-        $str = $this->repository->sqlDataToPhp($categorias);
+        $str        = $this->repository->sqlDataToPhp($categorias);
 
         Storage::put("/bkp/categorias_produtos.php", $str);
 
@@ -31,7 +31,7 @@ class BackupController extends Controller
     public function readDir(Request $request)
     {
         $dir = $request->input("dir");
-        try{
+        try {
             $d = Storage::directories($dir);
             $f = Storage::files($dir);
 
@@ -46,7 +46,7 @@ class BackupController extends Controller
     {
         $file = $request->input("dir");
 
-        try{
+        try {
             $f = Storage::get($file);
 
             $storage = ["content" => $f, "file" => $file];

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PerfilSeed::class,
             CategoriaProdutoSeed::class,
             ProdutoSeed::class,
+            LookupSeed::class,
         ]);
     }
 }
