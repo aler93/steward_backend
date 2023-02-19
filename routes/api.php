@@ -54,16 +54,18 @@ Route::prefix("/mercado")->group(function () {
 // Produtos API
 Route::prefix("/produto")->group(function () {
     // Categorias
-    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterCategorias"]);
+    Route::get("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "obterCategorias"]);
 
     Route::middleware('jwt:admin')->group(function () {
-        Route::post("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarCategoria"]);
-        Route::delete("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "deletarCategoria"]);
+        Route::post("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "cadastrarCategoria"]);
+        Route::delete("/categoria/{id}", ["App\Http\Controllers\Mercado\CategoriaController", "deletarCategoria"]);
     });
 
     // Produtos
     Route::get("/", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutos"]);
+    Route::get("/por-categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutosPorCategoria"]);
     Route::get("/{uuid_produto}", ["App\Http\Controllers\Mercado\ProdutoController", "obterProdutoDetalhes"]);
+
     Route::middleware('jwt:admin')->group(function () {
         Route::post("/", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarProduto"]);
         Route::put("/{uuid_produto}", ["App\Http\Controllers\Mercado\ProdutoController", "atualizarProdutos"]);
