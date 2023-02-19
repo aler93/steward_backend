@@ -16,18 +16,19 @@ class ListaController extends Controller
 
     public function __construct(Request $request, ListaRepository $repository)
     {
+        /*if ($userUuid != auth()->user()->uuid) {
+            throw new Exception("Usuário não pode alterar esta lista", 401);
+        }*/
+
         $this->repository = $repository;
     }
 
-    public function cadastrarLista(Request $request, string $userUuid): JsonResponse
+    public function cadastrarLista(Request $request): JsonResponse
     {
         try {
-            if ($userUuid != auth()->user()->uuid) {
-                throw new Exception("Usuário não pode alterar esta lista", 401);
-            }
             $dados = $request->input("lista");
 
-            $dados["uuid"] = uuid();
+            $dados["uuid"]    = uuid();
             $dados["id_user"] = auth()->user()->id;
 
             $out = $this->repository->cadastrarLista($dados);
@@ -88,9 +89,12 @@ class ListaController extends Controller
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
             if (is_null($lista)) {
-                return $this->jsonMessage("Nenhuma lista cadastrada", 404);
+                return $this->jsonMessage("Lista não encontrada", 404);
             }
-            $produtos = ListaProduto::where("id_lista", "=", $lista->id)->orderBy("status")->orderBy("ordem")->get();
+            $produtos = ListaProduto::where("id_lista", "=", $lista->id)
+                                    ->orderBy("ordem")
+                                    ->orderBy("status")
+                                    ->get();
 
             $lista             = $lista->toArray();
             $lista["produtos"] = $produtos->toArray();
@@ -156,7 +160,7 @@ class ListaController extends Controller
             $lp = new ListaProduto($produto);
             $lp->save();
 
-            return $this->jsonCreated("Produto adicionado na lista");
+            return $this->jsonCreated("Produto adicionado na lista", $lp->toArray());
         } catch (Exception $e) {
             return $this->jsonException($e);
         }
@@ -176,7 +180,7 @@ class ListaController extends Controller
 
             $prod->forceDelete();
 
-            return $this->jsonMessage("", 204);
+            return $this->jsonNoContent();
         } catch (Exception $e) {
             return $this->jsonException($e);
         }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,9 +15,15 @@ return new class extends Migration
         Schema::create('listas_user', function (Blueprint $table) {
             $table->id();
             $table->uuid("uuid")->unique();
-            $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId("id_user")
+                  ->references("id")
+                  ->on("users")
+                  ->cascadeOnUpdate()
+                  ->restrictOnDelete();
             $table->date("data_compra")->nullable();
-            $table->boolean("status")->default(false);
+            $table->boolean("status")
+                  ->default(true)
+                  ->comment("Valor indica se a lista já está concluída");
             $table->timestamps();
         });
     }
