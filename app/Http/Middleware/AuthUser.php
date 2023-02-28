@@ -4,7 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 
 class AuthUser
@@ -12,9 +15,10 @@ class AuthUser
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param \Closure(Request): (Response|RedirectResponse) $next
+     * @param null $self
+     * @return JsonResponse
      */
     public function handle(Request $request, Closure $next, $self = null)
     {
