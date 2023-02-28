@@ -85,3 +85,14 @@ Route::prefix("/admin")->group(function () {
     Route::get("/directory", ["App\Http\Controllers\Admin\BackupController", "readDir"]);
     Route::get("/open-file", ["App\Http\Controllers\Admin\BackupController", "readFile"]);
 });
+
+// Carro & combustível
+Route::prefix("/abastecimento")->group(function (){
+    Route::middleware('jwt:self')->group(function () {
+        Route::get("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "listar"]);
+        Route::get("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "detalhar"]);
+        Route::post("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "cadastrar"]);
+        Route::put("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "atualizar"]);
+        Route::delete("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "deletar"]);
+    });
+});

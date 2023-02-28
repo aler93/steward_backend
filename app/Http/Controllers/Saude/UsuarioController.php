@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Saude;
 
 use App\Http\Controllers\Controller;
 use App\Models\Perfil;
-use App\Models\User;
 use App\Models\UserImc;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

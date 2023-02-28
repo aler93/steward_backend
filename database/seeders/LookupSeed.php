@@ -58,6 +58,27 @@ class LookupSeed extends Seeder
                 "id_externo" => "genero",
                 "valor"      => "Prefere não identificar",
             ],
+            // Carros/cambios
+            [
+                "descricao"  => "Transmissão",
+                "id_externo" => "transmissao",
+                "valor"      => "Manual",
+            ],
+            [
+                "descricao"  => "Transmissão",
+                "id_externo" => "transmissao",
+                "valor"      => "Automático",
+            ],
+            [
+                "descricao"  => "Transmissão",
+                "id_externo" => "transmissao",
+                "valor"      => "CVT",
+            ],
+            [
+                "descricao"  => "Transmissão",
+                "id_externo" => "transmissao",
+                "valor"      => "Embreagem dupla (DCT)",
+            ],
         ];
 
         foreach($lookups as &$row) {
@@ -65,6 +86,7 @@ class LookupSeed extends Seeder
             $row["updated_at"] = now();
         }
 
+        DB::table("lookups")->delete();
         DB::table("lookups")->insert($lookups);
     }
 }
