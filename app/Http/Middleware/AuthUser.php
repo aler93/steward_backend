@@ -32,13 +32,7 @@ class AuthUser
         if( $self == "self" ) {
             $uuid = $request->input("uuid_user");
             if( is_null($uuid) ) {
-                $url  = explode("?", $request->getRequestUri())[0];
-                $params  = explode("/", $url);
-
-                $uuid = $params[3];
-                if (!Uuid::isValid($uuid)) {
-                    return response()->json(["message" => "UUID inválido..."], 401);
-                }
+                return response()->json(["message" => "É necessário identificar o usuário na requisição"], 401);
             }
 
             if( $user->uuid != $uuid ) {
@@ -46,11 +40,11 @@ class AuthUser
             }
         }
 
-        if( $self == "admin" ) {
+        /*if( $self == "admin" ) {
             if( !$user->admin ) {
                 return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
             }
-        }
+        }*/
 
         return $next($request);
     }
