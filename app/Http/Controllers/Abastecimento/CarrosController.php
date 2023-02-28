@@ -56,9 +56,9 @@ class CarrosController extends Controller
     public function detalhar(string $uuid): JsonResponse
     {
         try {
-            $carros = Carro::where("uuid", "=", $uuid)->with("transmissao")->first();
+            $carro = Carro::where("uuid", "=", $uuid)->with("transmissao")->first();
 
-            return $this->json(["Carros" => $carros]);
+            return $this->json(["Carro" => $carro]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }
@@ -73,10 +73,8 @@ class CarrosController extends Controller
                 }
             }
 
-            $data = $request->all();
-
-            $carro = Carro::where("uuid", "=", $uuid)->first();
-            $carro->update($data);
+            $carro = $this->repository->carroPorUuid($uuid);
+            $carro->update($request->all());
 
             return $this->jsonCreated("Carro atualizado", $carro->toArray());
         } catch (Exception $e) {
@@ -87,7 +85,7 @@ class CarrosController extends Controller
     public function deletar(string $uuid): JsonResponse
     {
         try {
-            $carro = Carro::where("uuid", "=", $uuid)->first();
+            $carro = $this->repository->carroPorUuid($uuid);
             $carro->forceDelete();
 
             return $this->jsonNoContent();

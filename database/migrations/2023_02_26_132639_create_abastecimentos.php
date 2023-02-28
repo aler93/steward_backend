@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedDouble("litros");
             $table->unsignedDouble("custo_gasolina")->nullable();
             $table->text("observacoes")->nullable();
+            $table->dateTime("data");
             $table->timestamps();
         });
     }

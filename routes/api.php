@@ -94,5 +94,9 @@ Route::prefix("/abastecimento")->group(function (){
         Route::post("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "cadastrar"]);
         Route::put("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "atualizar"]);
         Route::delete("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "deletar"]);
+
+        Route::post("/", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "cadastrar"]);
+        Route::get("/{uuid_carro}", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "listar"]);
+        //Route::delete("/{id_abastecimento}", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "deletar"]);
     });
 });
