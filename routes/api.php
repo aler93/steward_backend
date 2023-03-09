@@ -87,7 +87,7 @@ Route::prefix("/admin")->group(function () {
 });
 
 // Carro & combustível
-Route::prefix("/abastecimento")->group(function (){
+Route::prefix("/abastecimento")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         Route::get("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "listar"]);
         Route::get("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "detalhar"]);
@@ -97,6 +97,14 @@ Route::prefix("/abastecimento")->group(function (){
 
         Route::post("/", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "cadastrar"]);
         Route::get("/{uuid_carro}", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "listar"]);
-        //Route::delete("/{id_abastecimento}", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "deletar"]);
+        Route::delete("/deletar", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "requisitarDelete"]);
+    });
+});
+
+// Inventário pessoal
+Route::prefix("/inventario")->group(function () {
+    Route::middleware('jwt:self')->group(function () {
+        Route::post("/", ["App\Http\Controllers\Mercado\InventarioController", "cadastrar"]);
+        Route::get("/", ["App\Http\Controllers\Mercado\InventarioController", "listar"]);
     });
 });

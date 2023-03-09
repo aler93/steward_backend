@@ -19,4 +19,8 @@ class Abastecimento extends Model
         "observacoes",
         "data",
     ];
+
+    protected $hidden = [
+        "id_carro"
+    ];
 }
