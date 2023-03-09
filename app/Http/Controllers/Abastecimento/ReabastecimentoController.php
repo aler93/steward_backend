@@ -52,6 +52,10 @@ class ReabastecimentoController extends Controller
             $carro          = $this->carroRepository->carroPorUuid($uuidCarro);
             $abastacimentos = Abastecimento::where("id_carro", "=", $carro->id)->limit($limit)->offset($offset)->get();
 
+            foreach ($abastacimentos as $row) {
+                $row->km_l = number_format($row->km / $row->litros, 2, ",", ".") . " Km/l";
+            }
+
             return $this->json(["abastecimentos" => $abastacimentos]);
         } catch (Exception $e) {
             return $this->jsonException($e);
