@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mercado;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\InventarioRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -16,7 +17,7 @@ class InventarioController extends Controller
         $this->repository = $repository;
     }
 
-    public function cadastrar(Request $request)
+    public function cadastrar(Request $request): JsonResponse
     {
         try {
             $produtos = $request->input("produtos");
