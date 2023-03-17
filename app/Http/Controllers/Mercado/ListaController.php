@@ -48,6 +48,12 @@ class ListaController extends Controller
             }
 
             $lista->status = !$lista->status;
+
+            // Se concluído, commita produtos para o inventário do usuário
+            if ($lista->status) {
+                $this->repository->listaParaInventario($lista->id, $lista->id_user);
+            }
+
             $lista->save();
 
             return $this->jsonMessage("Status da lista atualizado");

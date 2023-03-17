@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Inventario extends Model
 {
     use HasFactory;
+
+    protected $table = "inventario";
+
+    protected $hidden = [
+        "id_user",
+        "id_produto",
+    ];
+
+    protected $casts = [
+        "quantidade" => "float",
+    ];
 }

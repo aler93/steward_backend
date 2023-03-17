@@ -62,4 +62,9 @@ class InventarioRepository
             throw $e;
         }
     }
+
+    public function limparInventarioPorUser(int $idUser)
+    {
+        Inventario::where("id_user", "=", $idUser)->forceDelete();
+    }
 }

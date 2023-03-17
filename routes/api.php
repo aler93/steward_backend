@@ -105,6 +105,7 @@ Route::prefix("/abastecimento")->group(function () {
 Route::prefix("/inventario")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         Route::post("/", ["App\Http\Controllers\Mercado\InventarioController", "cadastrar"]);
+        Route::put("/", ["App\Http\Controllers\Mercado\InventarioController", "atualizar"]);
         Route::get("/", ["App\Http\Controllers\Mercado\InventarioController", "listar"]);
     });
 });
