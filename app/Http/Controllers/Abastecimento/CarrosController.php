@@ -93,4 +93,17 @@ class CarrosController extends Controller
             return $this->jsonException($e);
         }
     }
+
+    public function getMain(Request $request)
+    {
+        $idUser = $request->user()->id;
+
+        try {
+            $carro = Carro::where("id_user", "=", $idUser)->where("principal", "=", true)->first();
+
+            return $this->json(["carro" => $carro]);
+        } catch (Exception $e) {
+            return $this->jsonException($e);
+        }
+    }
 }

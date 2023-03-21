@@ -91,6 +91,7 @@ Route::prefix("/abastecimento")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         Route::get("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "listar"]);
         Route::get("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "detalhar"]);
+        Route::get("/carro-principal", ["App\Http\Controllers\Abastecimento\CarrosController", "getMain"]);
         Route::post("/carros", ["App\Http\Controllers\Abastecimento\CarrosController", "cadastrar"]);
         Route::put("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "atualizar"]);
         Route::delete("/carros/{uuid_carro}", ["App\Http\Controllers\Abastecimento\CarrosController", "deletar"]);
