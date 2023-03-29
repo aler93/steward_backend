@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReabastecimentoCadastro;
 use App\Models\Abastecimento;
 use App\Models\Carro;
+use App\Models\Lookup;
 use App\Models\RequisicoesDelete;
 use App\Repositories\CarroRepository;
 use Illuminate\Http\JsonResponse;
@@ -87,6 +88,17 @@ class ReabastecimentoController extends Controller
             $req->save();
 
             return $this->jsonNoContent();
+        } catch (Exception $e) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function listarTransmissoes(): JsonResponse
+    {
+        try {
+            $transmissoes = Lookup::where("id_externo", "=", "transmissao")->get();
+
+            return $this->json(["transmissoes" => $transmissoes]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }

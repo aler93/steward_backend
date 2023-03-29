@@ -102,6 +102,8 @@ Route::prefix("/abastecimento")->group(function () {
     });
 });
 
+Route::get("/listar-transmissoes", ["App\Http\Controllers\Abastecimento\ReabastecimentoController", "listarTransmissoes"]);
+
 // Inventário pessoal
 Route::prefix("/inventario")->group(function () {
     Route::middleware('jwt:self')->group(function () {

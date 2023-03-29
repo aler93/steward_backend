@@ -47,7 +47,7 @@ class CarrosController extends Controller
         try {
             $carros = Carro::where("id_user", "=", $request->user()->id)->get();
 
-            return $this->json(["Carros" => $carros]);
+            return $this->json(["carros" => $carros]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }
@@ -58,7 +58,7 @@ class CarrosController extends Controller
         try {
             $carro = Carro::where("uuid", "=", $uuid)->with("transmissao")->first();
 
-            return $this->json(["Carro" => $carro]);
+            return $this->json(["carro" => $carro]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }
