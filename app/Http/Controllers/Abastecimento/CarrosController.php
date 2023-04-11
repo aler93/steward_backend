@@ -21,6 +21,8 @@ class CarrosController extends Controller
 
     public function cadastrar(CarroCadastro $request): JsonResponse
     {
+        $idUser = $request->user()->id;
+
         try {
             if ($request->input("id_transmissao")) {
                 if (!$this->repository->validarIdTransmissao($request->input("id_transmissao"))) {
@@ -28,9 +30,12 @@ class CarrosController extends Controller
                 }
             }
 
+            $carros = Carro::whereIdUser($idUser)->where("principal", "=", true)->get();
+
             $data = array_merge($request->all(), [
-                "id_user" => $request->user()->id,
-                "uuid"    => uuid(),
+                "id_user"   => $idUser,
+                "uuid"      => uuid(),
+                "principal" => !$carros->count(),
             ]);
 
             $carro = new Carro($data);
@@ -45,7 +50,7 @@ class CarrosController extends Controller
     public function listar(Request $request): JsonResponse
     {
         try {
-            $carros = Carro::where("id_user", "=", $request->user()->id)->get();
+            $carros = Carro::where("id_user", "=", $request->user()->id)->orderByDesc('created_at')->get();
 
             return $this->json(["carros" => $carros]);
         } catch (Exception $e) {
@@ -102,6 +107,20 @@ class CarrosController extends Controller
             $carro = Carro::where("id_user", "=", $idUser)->where("principal", "=", true)->first();
 
             return $this->json(["carro" => $carro]);
+        } catch (Exception $e) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function trocarPrincipal(Request $request, string $uuidCarro): JsonResponse
+    {
+        $idUser = $request->user()->id;
+
+        try {
+            Carro::whereIdUser($idUser)->update(["principal" => false]);
+            Carro::whereUuid($uuidCarro)->update(["principal" => true]);
+
+            return $this->jsonNoContent();
         } catch (Exception $e) {
             return $this->jsonException($e);
         }

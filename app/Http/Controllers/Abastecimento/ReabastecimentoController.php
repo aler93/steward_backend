@@ -53,8 +53,13 @@ class ReabastecimentoController extends Controller
             $carro          = $this->carroRepository->carroPorUuid($uuidCarro);
             $abastacimentos = Abastecimento::where("id_carro", "=", $carro->id)->limit($limit)->offset($offset)->get();
 
-            foreach ($abastacimentos as $row) {
-                $row->km_l = number_format($row->km / $row->litros, 2, ",", ".") . " Km/l";
+            foreach ($abastacimentos as &$row) {
+                $row->km_l = numFormatBr($row->km / $row->litros, 2, ",", ".") . " Km/l";
+
+                $row->km_f             = numFormatBr($row->km) . " Km";
+                $row->litros_f         = numFormatBr($row->litros) . " L";
+                $row->custo_gasolina_f = "R$ " . numFormatBr($row->custo_gasolina);
+                $row->data_f           = date("d/m/Y H:i", strtotime($row->data));
             }
 
             return $this->json(["abastecimentos" => $abastacimentos]);

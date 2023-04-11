@@ -19,3 +19,9 @@ if( !function_exists('like') ) {
         return "%" . $str . "%";
     }
 }
+
+if( !function_exists('numFormatBr') ) {
+    function numFormatBr(string $number): string {
+        return number_format($number, 2, ",", ".");
+    }
+}

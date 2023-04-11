@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ListaUser whereUuid($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ListaProduto> $produtos
  * @mixin \Eloquent
  */
 class ListaUser extends Model
