@@ -32,7 +32,7 @@ class AuthUser
             return $next($request);
         }
 
-        if( $self == "self" ) {
+        /*if( $self == "self" ) {
             $uuid = $request->input("uuid_user");
             if( is_null($uuid) ) {
                 return response()->json(["message" => "É necessário identificar o usuário na requisição"], 401);
@@ -40,12 +40,6 @@ class AuthUser
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);
-            }
-        }
-
-        /*if( $self == "admin" ) {
-            if( !$user->admin ) {
-                return response()->json(["message" => "Você não tem permissão para executar essa ação"], 401);
             }
         }*/
 

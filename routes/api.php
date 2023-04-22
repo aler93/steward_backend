@@ -25,6 +25,8 @@ Route::put("/user/{uuid}", ['App\Http\Controllers\UserController', "atualizar"])
 Route::patch("/user/{uuid}/admin", ['App\Http\Controllers\UserController', "admin"])->middleware("jwt:admin");
 Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"])->middleware("jwt:admin");
 
+Route::get("/obter-menu", ["App\Http\Controllers\UserController", "obterMeuMenu"])->middleware("jwt");
+
 Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
 Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
 Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"])->middleware('jwt');
@@ -111,6 +113,7 @@ Route::prefix("/inventario")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         Route::post("/", ["App\Http\Controllers\Mercado\InventarioController", "cadastrar"]);
         Route::put("/", ["App\Http\Controllers\Mercado\InventarioController", "atualizar"]);
+        Route::patch("/{uuid_produto}", ["App\Http\Controllers\Mercado\InventarioController", "atualizarProduto"]);
         Route::get("/", ["App\Http\Controllers\Mercado\InventarioController", "listar"]);
     });
 });

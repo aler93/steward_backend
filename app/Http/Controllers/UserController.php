@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserMenu;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\CadastrarRequest;
 use App\Models\Perfil;
@@ -142,6 +143,24 @@ class UserController extends Controller
             $user->save();
 
             return $this->jsonNoContent();
+        } catch (Exception $e) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function obterMeuMenu(Request $request): JsonResponse
+    {
+        $idUser = $request->user()->id;
+        $cols = [
+            "menu_items.name",
+            "menu_items.path",
+        ];
+
+        try {
+            $items = UserMenu::select($cols)->where("id_user", "=", $idUser)
+                             ->join("menu_items", "menu_items.id", "=", "user_menu.id_menu")->get();
+
+            return $this->json($items);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }
