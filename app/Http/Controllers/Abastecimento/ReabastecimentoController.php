@@ -58,11 +58,30 @@ class ReabastecimentoController extends Controller
 
                 $row->km_f             = numFormatBr($row->km) . " Km";
                 $row->litros_f         = numFormatBr($row->litros) . " L";
-                $row->custo_gasolina_f = "R$ " . numFormatBr($row->custo_gasolina);
-                $row->data_f           = date("d/m/Y H:i", strtotime($row->data));
+                $row->data_f           = date("d/m/Y", strtotime($row->data));
+                $row->custo_gasolina_f = "Não informado";
+
+                if( $row->custo_gasolina ) {
+                    $row->custo_gasolina_f = "R$ " . numFormatBr($row->custo_gasolina);
+                }
             }
 
             return $this->json(["abastecimentos" => $abastacimentos]);
+        } catch (Exception $e) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function detalhe(int $idAbastecimento): JsonResponse
+    {
+        try {
+            $abastacimento = Abastecimento::where("id", "=", $idAbastecimento)->with('carro')->first();
+
+            $abastacimento->km_f             = numFormatBr($abastacimento->km) . " km";
+            $abastacimento->litros_f         = numFormatBr($abastacimento->litros) . " L";
+            $abastacimento->custo_gasolina_f = $abastacimento->custo_gasolina ? "R$ " . numFormatBr($abastacimento->custo_gasolina) : "Não informado";
+
+            return $this->json(["abastecimento" => $abastacimento]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }

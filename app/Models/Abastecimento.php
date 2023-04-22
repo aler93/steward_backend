@@ -49,4 +49,9 @@ class Abastecimento extends Model
     protected $hidden = [
         "id_carro"
     ];
+
+    public function carro()
+    {
+        return $this->hasOne(Carro::class, 'id', "id_carro");
+    }
 }
