@@ -46,7 +46,7 @@ class ReabastecimentoController extends Controller
 
     public function listar(string $uuidCarro, Request $request): JsonResponse
     {
-        $limit  = $request->input("limit") ?? 15;
+        $limit  = $request->input("limit") ?? 30;
         $offset = $request->input("offset") ?? 0;
         $dt_de  = $request->input("dt_de") ?? null;
         $dt_ate = $request->input("dt_ate") ?? null;
