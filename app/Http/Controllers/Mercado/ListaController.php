@@ -39,15 +39,19 @@ class ListaController extends Controller
         }
     }
 
-    public function atualizarStatusLista(string $uuidLista): JsonResponse
+    public function atualizarStatusLista(string $uuidLista, Request $request): JsonResponse
     {
+        $done = $request->input("done") ? true : null;
+
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
             if (is_null($lista)) {
                 throw new Exception("Lista não encontrada", 404);
             }
 
-            $lista->status = !$lista->status;
+            $status = $done ?? !$lista->status;
+
+            $lista->status = $status;
 
             // Se concluído, commita produtos para o inventário do usuário
             if ($lista->status) {
@@ -147,11 +151,11 @@ class ListaController extends Controller
         try {
             $lista = ListaUser::where("uuid", "=", $uuidLista)->first();
             if (is_null($lista)) {
-                throw new Exception("Lista não encontrado", 404);
+                return $this->json(["msg" => "Lista não encontrada"], 404);
             }
 
             if ($lista->status) {
-                throw new Exception("Essa lista já foi concluída", 400);
+                return $this->json(["msg" => "Essa lista já foi concluída, não possível adicionar mais produtos"], 400);
             }
 
             $total = ListaProduto::where("id_lista", "=", $lista->id)->count();

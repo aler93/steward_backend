@@ -91,6 +91,8 @@ class ReabastecimentoController extends Controller
             $abastacimento = Abastecimento::where("id", "=", $idAbastecimento)->with('carro')->first();
 
             $abastacimento->km_f             = numFormatBr($abastacimento->km) . " km";
+            $abastacimento->km_l             = numFormatBr($abastacimento->km / $abastacimento->litros) . " km/L";
+            $abastacimento->data_f           = date("d/m/Y", strtotime($abastacimento->data));
             $abastacimento->litros_f         = numFormatBr($abastacimento->litros) . " L";
             $abastacimento->custo_gasolina_f = $abastacimento->custo_gasolina ? "R$ " . numFormatBr($abastacimento->custo_gasolina) : "Não informado";
 
