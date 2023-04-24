@@ -9,6 +9,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthUser
 {
@@ -22,13 +25,25 @@ class AuthUser
      */
     public function handle(Request $request, Closure $next, $self = null)
     {
+        try {
+            if (!$user = \JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (TokenExpiredException $e) {
+            return response()->json(["msg" => 'token_expired'], 403);
+        } catch (TokenInvalidException $e) {
+            return response()->json(["msg" => 'token_invalid'], 403);
+        } catch (JWTException $e) {
+            return response()->json(["msg" => 'token_absent'], 401);
+        }
+
         $user = auth()->user();
 
-        if( is_null($user) ) {
+        if (is_null($user)) {
             return response()->json(["message" => "Token JWT não encontrado na requisição"], 403);
         }
 
-        if( $user->admin ) {
+        if ($user->admin) {
             return $next($request);
         }
 
