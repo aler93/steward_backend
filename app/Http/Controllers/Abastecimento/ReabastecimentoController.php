@@ -48,13 +48,26 @@ class ReabastecimentoController extends Controller
     {
         $limit  = $request->input("limit") ?? 15;
         $offset = $request->input("offset") ?? 0;
+        $dt_de  = $request->input("dt_de") ?? null;
+        $dt_ate = $request->input("dt_ate") ?? null;
 
         try {
             $carro          = $this->carroRepository->carroPorUuid($uuidCarro);
-            $abastacimentos = Abastecimento::where("id_carro", "=", $carro->id)->limit($limit)->offset($offset)->get();
+            if( $dt_de && $dt_ate ) {
+                $abastacimentos = Abastecimento::where("id_carro", "=", $carro->id)
+                                               ->where("data", ">=", $dt_de)
+                                               ->where("data", "<=", $dt_ate)
+                                               ->limit($limit)
+                                               ->get();
+            } else {
+                $abastacimentos = Abastecimento::where("id_carro", "=", $carro->id)
+                                               ->limit($limit)
+                                               ->offset($offset)
+                                               ->get();
+            }
 
             foreach ($abastacimentos as &$row) {
-                $row->km_l = numFormatBr($row->km / $row->litros, 2, ",", ".") . " Km/l";
+                $row->km_l = numFormatBr($row->km / $row->litros) . " Km/l";
 
                 $row->km_f             = numFormatBr($row->km) . " Km";
                 $row->litros_f         = numFormatBr($row->litros) . " L";
