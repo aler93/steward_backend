@@ -27,7 +27,7 @@ class PerfilSeed extends Seeder
                 "sexo"            => "N",
                 "genero"          => "Prefere não identificar",
             ],
-            [
+            /*[
                 "id_user"         => 2,
                 "nome"            => "Alisson Naimayer",
                 "cpf"             => "02870190042",
@@ -36,7 +36,7 @@ class PerfilSeed extends Seeder
                 "altura"          => 1.7,
                 "sexo"            => "M",
                 "genero"          => "Masculino",
-            ],
+            ],*/
             [
                 "id_user"         => 3,
                 "nome"            => "Tester",
