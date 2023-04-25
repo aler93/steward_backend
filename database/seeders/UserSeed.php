@@ -31,7 +31,7 @@ class UserSeed extends Seeder
                 //"name"     => "Alisson Naimayer",
                 "uuid"     => "e3ee1e8a-2833-4f7c-9c56-b7c338935b7b",
                 "email"    => "anaimayer3@gmail.com",
-                "password" => Hash::make(env("TESTER_PASS")),
+                "password" => Hash::make(env("ADMIN_PASS")),
                 "admin"    => true,
             ],
             [
