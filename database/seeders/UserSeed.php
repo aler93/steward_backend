@@ -26,14 +26,14 @@ class UserSeed extends Seeder
                 "password" => Hash::make(env("ADMIN_PASS")),
                 "admin"    => true,
             ],
-            [
+            /*[
                 "id"       => 2,
                 //"name"     => "Alisson Naimayer",
                 "uuid"     => "e3ee1e8a-2833-4f7c-9c56-b7c338935b7b",
                 "email"    => "anaimayer3@gmail.com",
                 "password" => Hash::make(env("ADMIN_PASS")),
                 "admin"    => true,
-            ],
+            ],*/
             [
                 "id"       => 3,
                 //"name"     => "Testes",
