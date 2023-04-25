@@ -34,14 +34,14 @@ class UserSeed extends Seeder
                 "password" => Hash::make(env("ADMIN_PASS")),
                 "admin"    => true,
             ],*/
-            [
+            /*[
                 "id"       => 3,
                 //"name"     => "Testes",
                 "uuid"     => "4a367edf-afff-4681-b6c7-d7b7deb6f99a",
                 "email"    => "tester@steward.com.br",
                 "password" => Hash::make(env("TESTER_PASS")),
                 "admin"    => false,
-            ],
+            ],*/
         ];
 
         foreach( $users as &$user ) {

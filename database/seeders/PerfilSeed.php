@@ -37,7 +37,7 @@ class PerfilSeed extends Seeder
                 "sexo"            => "M",
                 "genero"          => "Masculino",
             ],*/
-            [
+            /*[
                 "id_user"         => 3,
                 "nome"            => "Tester",
                 "cpf"             => null,
@@ -46,7 +46,7 @@ class PerfilSeed extends Seeder
                 "altura"          => 1.7,
                 "sexo"            => "N",
                 "genero"          => "Prefere não identificar",
-            ],
+            ],*/
         ];
 
         foreach( $profiles as &$row ) {
