@@ -32,6 +32,8 @@ Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
 Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"])->middleware('jwt');
 Route::get("/get-me", ["App\Http\Controllers\LoginController", "getMe"]);
 
+Route::post("/esqueci-senha", ["App\Http\Controllers\UserController", "forgotPassword"]);
+
 // Listas de mercados e etc.
 Route::prefix("/mercado")->group(function () {
     Route::middleware('jwt:self')->group(function () {

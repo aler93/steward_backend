@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("cpf", 11)->nullable();
             $table->boolean("cpf_responsavel")->default(false);
             $table->string("telefone", 11)->nullable();
+            $table->string("telegram_chatid")->nullable();
             $table->float("altura")->nullable();
             $table->string("sexo", 1)->nullable()->default("N");
             $table->string("genero", 30)->nullable();

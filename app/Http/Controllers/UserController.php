@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ForgotPassword;
 use App\Models\UserMenu;
 use Illuminate\Http\Request;
 use App\Http\Requests\User\CadastrarRequest;
 use App\Models\Perfil;
 use App\Models\User;
+use App\Models\UserSenhaRecuperacao;
+use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +17,13 @@ use \Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    private UserRepository $repository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->repository = $userRepository;
+    }
+
     public function cadastrar(CadastrarRequest $request): JsonResponse
     {
         try {
@@ -72,7 +82,7 @@ class UserController extends Controller
 
             return $this->json($user->toArray());
         } catch (Exception $e) {
-            return $this->jsonException($e);
+            return $this->jsonException($e, $e->getCode());
         }
     }
 
@@ -108,6 +118,9 @@ class UserController extends Controller
             DB::beginTransaction();
 
             $user   = User::where("uuid", "=", $uuid)->first();
+            if( is_null($user) ) {
+                throw new Exception("Usuário não encontrado", 404);
+            }
             $perfil = Perfil::where("id_user", "=", $user->id)->first();
 
             $dataPerfil             = $request->input("perfil");
@@ -117,6 +130,9 @@ class UserController extends Controller
             $dataUser = $request->all();
             unset($dataUser["perfil"]);
             $dataUser["admin"] = false;
+
+            unset($dataUser["id"]);
+            unset($dataUser["uuid"]);
 
             $perfil->update($dataPerfil);
             $user->update($dataUser);
@@ -163,6 +179,51 @@ class UserController extends Controller
             return $this->json($items);
         } catch (Exception $e) {
             return $this->jsonException($e);
+        }
+    }
+
+    public function forgotPassword(ForgotPassword $request): JsonResponse
+    {
+        $translate = ["email" => "e-mail", "telegram" => "Telegram"];
+        try {
+            if(!isset($translate[$request->input("canal")])) {
+                throw new Exception("Serviço para recuperação de senha não cadastrado");
+            }
+
+            $user = User::where("email", "=", $request->input("email"))->first();
+            if( is_null($user) ) {
+                throw new Exception("E-mail não encontrado");
+            }
+
+            $token = $this->repository->gerarToken();
+            $validade = now()->addDay();
+
+            $data = [
+                "validade_token" => $validade->format("d/m/Y H:i")
+            ];
+            if( env("APP_DEBUG") ) {
+                $data["token"] = $token;
+            }
+
+            $msg = "Chave para recuperação enviada com sucesso para seu {$translate[$request->input('canal')]}";
+
+            $recup = new UserSenhaRecuperacao([
+                "uuid"       => uuid(),
+                "token"      => $token,
+                "email"      => $request->input('email'),
+                "canal"      => $request->input('canal'),
+                "valido_ate" => $validade,
+            ]);
+            $recup->save();
+
+            $r = $this->repository->enviarTokenRecuperacao($recup);
+            if( $r ) {
+                return $this->jsonResponse("Mensagem enviada com sucesso", $msg, $data);
+            }
+
+            return $this->jsonResponse("Ocorreu um erro ao enviar a mensagem...");
+        } catch( Exception $e ) {
+            return $this->jsonException($e, $e->getCode());
         }
     }
 }
