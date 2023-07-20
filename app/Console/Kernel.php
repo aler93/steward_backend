@@ -19,6 +19,9 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command("steward:limpar")->hourly();
         //$schedule->command("steward:backupDB")->daily();
+
+        $schedule->command("telegram:save")->everyFiveMinutes();
+        $schedule->command("mensagens:enviar")->everyFiveMinutes();
     }
 
     /**

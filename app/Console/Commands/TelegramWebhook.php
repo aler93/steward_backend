@@ -7,9 +7,12 @@ use App\Models\Perfil;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Storage;
 
 class TelegramWebhook extends Command
 {
+    private string $file = "/webhook/telegram.json";
+
     /**
      * The name and signature of the console command.
      *
@@ -31,7 +34,7 @@ class TelegramWebhook extends Command
      */
     public function handle()
     {
-        //https://api.telegram.org/bot6352070089:AAGT-cNNJmHq_EILr-PHnquehDUbKKG-RGo/getUpdates
+        $lastUpdate = $this->lastMessage();
 
         $r = Http::get("https://api.telegram.org/bot" . env("TELEGRAM_BOT") . "/getUpdates");
 
@@ -43,6 +46,11 @@ class TelegramWebhook extends Command
         }
         $msgs = $body["result"];
         foreach( $msgs as $msg ) {
+            if( $msg["update_id"] <= $lastUpdate ) {
+                dump("Skipping " . $msg["update_id"]);
+                continue;
+            }
+
             if( str_contains($msg["message"]["text"], "/save") and strlen($msg["message"]["text"]) > 5 ) {
                 $email = explode(" ", $msg["message"]["text"]);
                 if( count($email) >= 2 ) {
@@ -68,8 +76,26 @@ class TelegramWebhook extends Command
                     $confirmar->save();
                 }
             }
+
+            Storage::disk("local")->put($this->file, json_encode(["update_id" => $msg["update_id"]]));
         }
 
         return Command::SUCCESS;
+    }
+
+    private function lastMessage()
+    {
+        $txt = Storage::disk("local")->get($this->file);
+
+        if( is_null($txt) ) {
+            return 0;
+        }
+        $json = json_decode($txt);
+
+        if( !isset($json->update_id) ) {
+            return 0;
+        }
+
+        return $json->update_id;
     }
 }
