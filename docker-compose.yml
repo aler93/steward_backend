@@ -77,4 +77,14 @@ services:
       - "max_connections=100"
       - "-c"
       - "shared_buffers=1GB"
-
+  steward_nosql:
+    image: mongo:jammy
+    container_name: steward_nosql
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: secretpass
+    ports:
+      - 27017:27017
+    networks:
+      - steward_rede
