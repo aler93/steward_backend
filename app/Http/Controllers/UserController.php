@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\CadastrarRequest;
 use App\Models\Perfil;
 use App\Models\User;
+use App\Models\UserSenhaAlterado;
 use App\Models\UserSenhaRecuperacao;
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -231,12 +234,60 @@ class UserController extends Controller
     public function resetPassword(Request $request): JsonResponse
     {
         try {
+            if( empty($request->input("chave")) ) {
+                throw new Exception("Chave não encontrada na requisição", 422);
+            }
+            $key = $request->input("chave");
+
+            if( empty($request->input("email")) ) {
+                throw new Exception("É necessário enviar o e-mail na requisição", 422);
+            }
+            $user = User::where("email", "=", $request->input("email"))->first();
+
+            if( is_null($user) ) {
+                throw new Exception("Usuário não encontrado com o email fornecido", 404);
+            }
+
             if( strlen($request->input("password")) < 6 ) {
                 throw new Exception("A senha deve conter no mínimo 6 dígitos", 422);
             }
+            $pswd = Hash::make($request->input("password"));
+            $token = UserSenhaRecuperacao::where("token", "=", $key)
+                                         ->first();
+            if( is_null($token) ) {
+                throw new Exception("Token de recuperação inválido", 403);
+            }
+            if( $request->input("email") != $token->email ) {
+                throw new Exception("E-mail não autorizado", 401);
+            }
+            $valido = Carbon::create($token->valido_ate);
+
+            if($valido->isPast()) {
+                throw new Exception("Token expirado", 424);
+            }
+
+            $used = UserSenhaAlterado::where("id_senha_recuperacao", "=", $token->id)->first();
+            if( !is_null($used) ) {
+                throw new Exception("Esse token já foi utilizado para alterar a senha", 401);
+            }
+
+            DB::beginTransaction();
+
+            $changedPass = new UserSenhaAlterado([
+                "id_senha_recuperacao" => $token->id,
+                "created_at" => now(),
+            ]);
+            $changedPass->save();
+
+            $user->password = $pswd;
+            $user->save();
+
+            DB::commit();
 
             return $this->jsonResponse("Senha alterada com sucesso");
         } catch( Exception $e ) {
+            DB::rollback();
+
             return $this->jsonException($e, $e->getCode());
         }
     }

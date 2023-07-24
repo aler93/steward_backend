@@ -16,6 +16,10 @@ class Controller extends BaseController
 
     protected function json($data, int $status = 200): jsonResponse
     {
+        if( !in_array($status, array_keys(Response::$statusTexts)) ) {
+            $status = 500;
+        }
+
         return response()->json($data, $status);
     }
 
