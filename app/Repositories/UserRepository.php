@@ -20,7 +20,8 @@ class UserRepository
         $charTaken = [];
         for( $i = 0; $i < self::$tokenSize; $i++ ) {
             $pos = rand(0, count(self::$chars)-1);
-            while( in_array($pos, $charTaken) ) {
+
+            while( in_array(self::$chars[$pos], $charTaken) ) {
                 $pos = rand(0, count(self::$chars)-1);
             }
             $charTaken[] = self::$chars[$pos];
@@ -38,11 +39,11 @@ class UserRepository
                     ->first();
 
         if( $table->canal == "telegram" ) {
-            if( strlen($user->telefone) < 11 ) {
-                throw new Exception("Telefone não cadastrado ou com formáto inválido: $user->telefone", 422);
+            if( is_null($user->telegram_chatid) ) {
+                throw new Exception("Usuário não cadastrou seu Chat ID do telegram (é preciso enviar uma mensagem para o bot steward_api_bot com a mensagem 'save /meuemail@mail.com')", 422);
             }
 
-            if( $this->enviarTelegram($user->telefone, $table->token) ) {
+            if( $this->enviarTelegram($user->telegram_chatid, $table->token, $table->valido_ate->format("d/m/Y H:i")) ) {
                 $table->enviado = now();
                 $table->save();
 
@@ -51,12 +52,12 @@ class UserRepository
         }
     }
 
-    private function enviarTelegram(string $chatId, string $token): bool
+    private function enviarTelegram(string $chatId, string $token, string $validade): bool
     {
-        $chatId = "+55" . $chatId;
+        $mensagem = "Esse é o seu token para cadastrar uma nova senha: \n\n" . $token . "\n\n Esse token é válido até " . $validade;
 
         $telegram = new Telegram();
-        $status = $telegram->enviar($chatId, $token);
+        $status = $telegram->enviar($chatId, $mensagem);
 
         if( $status == 200 ) {
             return true;

@@ -33,6 +33,7 @@ Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"])->mi
 Route::get("/get-me", ["App\Http\Controllers\LoginController", "getMe"]);
 
 Route::post("/esqueci-senha", ["App\Http\Controllers\UserController", "forgotPassword"]);
+Route::post("/resetar-senha", ["App\Http\Controllers\UserController", "resetPassword"]);
 
 // Listas de mercados e etc.
 Route::prefix("/mercado")->group(function () {

@@ -185,6 +185,7 @@ class UserController extends Controller
     public function forgotPassword(ForgotPassword $request): JsonResponse
     {
         $translate = ["email" => "e-mail", "telegram" => "Telegram"];
+
         try {
             if(!isset($translate[$request->input("canal")])) {
                 throw new Exception("Serviço para recuperação de senha não cadastrado");
@@ -222,6 +223,19 @@ class UserController extends Controller
             }
 
             return $this->jsonResponse("Ocorreu um erro ao enviar a mensagem...");
+        } catch( Exception $e ) {
+            return $this->jsonException($e, $e->getCode());
+        }
+    }
+
+    public function resetPassword(Request $request): JsonResponse
+    {
+        try {
+            if( strlen($request->input("password")) < 6 ) {
+                throw new Exception("A senha deve conter no mínimo 6 dígitos", 422);
+            }
+
+            return $this->jsonResponse("Senha alterada com sucesso");
         } catch( Exception $e ) {
             return $this->jsonException($e, $e->getCode());
         }
