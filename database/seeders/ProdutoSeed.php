@@ -859,20 +859,299 @@ class ProdutoSeed extends Seeder
                 "informacao_nutricional" => "",
                 "image_link"             => "https://cdn.dooca.store/3628/products/marshmallow-fofs-twist-colorido-em-tiras_640x640+fill_ffffff.jpg?v=1660681202&webp=0",
             ],
+            // Laticínios
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Laticínios"],
+                "nome"                   => "Leite em caixa",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://img.sitemercado.com.br/produtos/2d6fe9c400a3419e358622ac43d4b765d0621c96028148f1363466389fd26249_full.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Laticínios"],
+                "nome"                   => "Leite condensado",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://images.tcdn.com.br/img/img_prod/1122401/leite_condensado_italac_tp_395g_225_1_e99631f2b80f1c5df5e5995236e14a4a.png",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Laticínios"],
+                "nome"                   => "Creme de leite",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://ferrosdoces.fbitsstatic.net/img/p/creme-de-leite-leve-200gr-italac-75863/262374-1.jpg?w=420&h=420&v=no-change&qs=ignore",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Laticínios"],
+                "nome"                   => "Doce de leite",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://emporioclick.com.br/image/cache/catalog/Prime/Doce_de_Leite_Choc_2-800x800w.jpg",
+            ],
 
             // Diet/Fitness
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Diet/Fitness"],
+                "nome"                   => "Barra de proteína",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://d2r9epyceweg5n.cloudfront.net/stores/002/687/003/products/barrinha-coco-max-titanium-unidade31-e05675b2d53b2fdc7816774426116591-1024-1024.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Diet/Fitness"],
+                "nome"                   => "Whey protein",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.smartfitsupps.com.br/wp-content/uploads/2023/09/whey_protein_concentrado_chocolate_900g_smartfit_supps1.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Diet/Fitness"],
+                "nome"                   => "Barra de cereal",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://global.cdn.magazord.com.br/lojasadoce/img/2021/06/produto/114/cereal-morango-dp.jpg?ims=800x800",
+            ],
 
             // Álcool
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Cerveja",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://2.bp.blogspot.com/-PS857dlFD3Y/VqEn3u7xR_I/AAAAAAAAoNY/QQcqWVtUTHo/s1600/Cerveja-Blumenau.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Vinho",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.vinicolacampestre.com.br/wp-content/uploads/2019/07/Bordo-Suave-1L.png",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Hidromel",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://acdn.mitiendanube.com/stores/947/764/products/trio1-f41bbee699a9adeb5c16692350437687-640-0.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Whisky",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/600x450/2132/2132264/produto/146702980c85335b023.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Tequila",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://dinho.vteximg.com.br/arquivos/ids/157489-700-700/Tequila-Jose-Cuervo-Ouro-375Ml-1.png?v=637947157702500000",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Rum",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://acdn.mitiendanube.com/stores/001/043/810/products/a6132e6b947aa14e197384c57f51c964awsaccesskeyidakiatclmsgfx4j7tu445expires1729275180signaturebfudyogcsxepmsfneqzodxk306a3d-43cfa3720e31b0c1cd16977391969408-640-0.png",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Saquê",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/600x450/1231/1231345/produto/54424850/3cb6fb006b.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Espumante",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://lovino.vtexassets.com/arquivos/ids/157274-800-800?v=637589521315730000&width=800&height=800&aspect=true",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Vodka",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://dinho.vteximg.com.br/arquivos/ids/158228-700-700/Vodka-Smirnoff-Red-Pet-1750Ml-1.jpg?v=638194315356970000",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Licor",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://http2.mlstatic.com/D_NQ_NP_633634-MLB47690383150_092021-O.webp",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Cachaça",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/800x800/897/897819/produto/41482223/bylaardt-premium-700-1-3l1mbf59ph.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Conhaque",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://dinho.vteximg.com.br/arquivos/ids/157563-700-700/Conhaque-Domus-1000Ml-1.png?v=637958235952970000",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Álcool"],
+                "nome"                   => "Gim",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://a-static.mlcdn.com.br/450x450/gin-tanqueray-london-dry-750ml-gim-original/maxxmercadinho/mlt108/7555263b90e74050933b2024a9e5b979.jpeg",
+            ],
 
             // Sucos
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Sucos"],
+                "nome"                   => "Suco de garrafa",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://acdn.mitiendanube.com/stores/001/103/462/products/suco-de-uva-panizzon-1500ml-garrafa-de-vidro1-b6fb210dfd52568c7516347593818266-640-0.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Sucos"],
+                "nome"                   => "Suco de caixinha",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://acdn.mitiendanube.com/stores/001/103/462/products/materia-principal-aurora-lanca-suco-de-uva-integral-em-embalagem-cartonada-de-15-litro1-43b5251f48ea75d5ee16676498968408-1024-1024.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Sucos"],
+                "nome"                   => "Suco de pacotinho",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://down-br.img.susercontent.com/file/dbdc3dbc422d86bd9ae5ebf155475c00",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Sucos"],
+                "nome"                   => "Polpa de fruta",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.ricaeli.com.br/arquivos/pics_produto/polpa-fruta-cong-melancia-1.png",
+            ],
 
             // Refrigerantes
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Refrigerantes"],
+                "nome"                   => "Coca Cola",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.bernardaoemcasa.com.br/media/catalog/product/cache/1/image/500x500/9df78eab33525d08d6e5fb8d27136e95/1/2/12131-refrigerante-coca-cola-menos-acucar-pet-2l-g.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Refrigerantes"],
+                "nome"                   => "Pepsi",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://santaluzia.vteximg.com.br/arquivos/ids/979137-740-515/611786.jpg?v=637775938689200000",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Refrigerantes"],
+                "nome"                   => "Fanta",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.dooca.store/239/products/ofqk3bfpi0zd69rkhmiycjxomyeupvxxk3io_640x640+fill_ffffff.jpg?v=1604038701&webp=0",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Refrigerantes"],
+                "nome"                   => "Schweppes",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://naturaldaterra.com.br/media/catalog/product/1/2/125162-refrigerante-citrus-schweppes-garrafa-1-5l.jpg?auto=webp&format=pjpg&width=640&height=800&fit=cover",
+            ],
 
             // Chás
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Chás"],
+                "nome"                   => "Chá em folhas",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/982/982070/produto/47648275/cha-verde-em-folhas-ef4bc5c7.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Chás"],
+                "nome"                   => "Chá instantâneo",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://images-americanas.b2w.io/produtos/2891774615/imagens/cha-granulado-instantaneo-350-gramas-multifruit/2891774615_1_large.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Chás"],
+                "nome"                   => "Chá em sachê",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/600x1000/2472/2472787/produto/172453725/29b79a50de.jpg",
+            ],
 
             // Café
-
-            // Leite
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Café"],
+                "nome"                   => "Café em pó",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://a-static.mlcdn.com.br/450x450/cafe-em-po-tradicional-melitta-500g-kit-5/olistsp/osp5b6xjxerkstx5/77786458215ef85a4f4534c6ba609d82.jpeg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Café"],
+                "nome"                   => "Café solúvel",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://shoppr.com.br/cdn/shop/products/cafe-iguacu_2048x.png?v=1618501468",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Café"],
+                "nome"                   => "Cappuccino em pó",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/600x1000/204/204167/produto/31728387/db1e08da16.jpg",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Café"],
+                "nome"                   => "Café em grão",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://cdn.awsli.com.br/600x450/2535/2535043/produto/191021599/caf--soho-especial-frutado-torrado-e-mo-do-250g-01-ritl3kdzrj.jpg",
+            ],
 
             // Aditivo
 
@@ -903,10 +1182,40 @@ class ProdutoSeed extends Seeder
             // Varanda
 
             // Ração
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Ração"],
+                "nome"                   => "Ração para gato",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://agrosolo.fbitsstatic.net/img/p/racao-whiskas-para-gatos-filhotes-sabor-carne-e-leite-77427/269830.jpg?w=700&h=700&v=no-value",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Ração"],
+                "nome"                   => "Ração para cachorro",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.petlove.com.br/images/products/263605/product/Ra%C3%A7%C3%A3o_Seca_Origens_Premium_Especial_Class_Carne_e_Frango_para_C%C3%A3es_Adultos_2639594_1.jpg?1666009704",
+            ],
 
             // Petisco
-
-            // Higiene
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Petisco"],
+                "nome"                   => "Petisco para gato",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://www.petlove.com.br/images/products/271236/product/31027528273_Kit_Petisco_Purina_Friskies_para_Gatos_Adultos_Sabor_Carne_e_Cordeiro_40g_-_3_Unidades_%281%29.png?1689944148",
+            ],
+            [
+                "uuid"                   => uuid(),
+                "categoria_id"           => $this->categorias["Petisco"],
+                "nome"                   => "Petisco para cachorro",
+                "descricao"              => "",
+                "informacao_nutricional" => "",
+                "image_link"             => "https://down-br.img.susercontent.com/file/f5dada3227fffe70e0a8adfcad479345",
+            ],
 
             // Remédio
 

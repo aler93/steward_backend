@@ -106,6 +106,10 @@ class CategoriaProdutoSeed extends Seeder
                 "categoria_id" => 2,
             ],
             [
+                "nome"         => "Laticínios",
+                "categoria_id" => 2,
+            ],
+            [
                 "nome"         => "Diet/Fitness",
                 "categoria_id" => 2,
             ],
