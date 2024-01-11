@@ -57,6 +57,7 @@ Route::prefix("/produto")->group(function(){
         Route::delete("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "deletarCategoria"]);
     });
 
+    Route::get("/", ["App\Http\Controllers\Mercado\ProdutoController", "produtos"]);
     Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
 });
 

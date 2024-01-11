@@ -10,6 +10,8 @@ use Exception;
 
 class ProdutoController extends Controller
 {
+    private int $perPage = 50;
+
     public function cadastrarCategoria(Request $request)
     {
         try {
@@ -52,6 +54,46 @@ class ProdutoController extends Controller
             ->get();
 
             return $this->json(["categorias" => $categorias->toArray()]);
+        } catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function produtos(Request $request)
+    {
+        $page   = $request->input("page") ?? 0;
+        $limit  = $request->input("limit") ?? $this->perPage;
+        $offset = $page * $limit;
+
+        try {
+            $produtos = Produto::query();
+
+            if( strlen($request->input("filter")) > 0 ) {
+                $filter   = like($request->input("filter"));
+                $produtos = $produtos->where("nome", "ilike", $filter);
+            }
+            if( strlen($request->input("categoria_id")) > 0 ) {
+                $id   = $request->input("categoria_id");
+                if( $id < 100 ) {
+                    $categorias = CategoriaProduto::where("categoria_id", "=", $id)->get()->toArray();
+                    $ids = array_column($categorias, "id");
+
+                    $produtos = $produtos->whereIn("categoria_id", $ids);
+                } else {
+                    $produtos = $produtos->where("categoria_id", "=", $id);
+                }
+            }
+
+            $produtos = $produtos->limit($limit)->offset($offset);
+            $produtos = $produtos->get()->toArray();
+
+            foreach($produtos as &$row) {
+                if( strlen($row["image_link"]) <= 0 ) {
+                    $row["image_link"] = env("APP_URL") . "/no-image.png";
+                }
+            }
+
+            return $this->json(["count" => count($produtos), "produtos" => $produtos]);
         } catch( Exception $e ) {
             return $this->jsonException($e);
         }
