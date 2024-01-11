@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CategoriaProduto;
 use Illuminate\Http\Request;
 use App\Models\Produto;
+use App\Models\ProdutoVariacao;
 use Exception;
 
 class ProdutoController extends Controller
@@ -94,6 +95,23 @@ class ProdutoController extends Controller
             }
 
             return $this->json(["count" => count($produtos), "produtos" => $produtos]);
+        } catch( Exception $e ) {
+            return $this->jsonException($e);
+        }
+    }
+
+    public function variacoes(int $id)
+    {
+        try {
+            $variacoes = ProdutoVariacao::where("produto_id", "=", $id)->get()->toArray();
+
+            foreach($variacoes as &$row) {
+                if( strlen($row["image_link"]) <= 0 ) {
+                    $row["image_link"] = env("APP_URL") . "/no-image.png";
+                }
+            }
+
+            return $this->json(["count" => count($variacoes), "produtos" => $variacoes]);
         } catch( Exception $e ) {
             return $this->jsonException($e);
         }

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->uuid("uuid")->unique();
             $table->foreignId("user_id")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->string("nome", 35)->nullable();
             $table->date("data_compra")->nullable();
-            $table->boolean("status")->default(false);
+            $table->boolean("concluida")->default(false);
             $table->timestamps();
         });
     }

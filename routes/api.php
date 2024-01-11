@@ -58,6 +58,7 @@ Route::prefix("/produto")->group(function(){
     });
 
     Route::get("/", ["App\Http\Controllers\Mercado\ProdutoController", "produtos"]);
+    Route::get("/{id}/variacao", ["App\Http\Controllers\Mercado\ProdutoController", "variacoes"]);
     Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
 });
 

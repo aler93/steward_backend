@@ -77,18 +77,18 @@ class DownloadImages extends Command
 
         foreach( $produtos as $prod ) {
             $toDownload[] = [
-                "img_link" => $prod["img_link"],
-                "nome"     => $prod["nome"],
-                "uuid"     => $prod["uuid"],
+                "image_link" => $prod["image_link"],
+                "nome"       => $prod["nome"],
+                "uuid"       => $prod["uuid"],
             ];
         }
 
         $variacoes = ProdutoVariacao::where("image_local", "=", false)->get()->toArray();
         foreach( $variacoes as $var ) {
             $toDownload[] = [
-                "img_link" => $var["img_link"],
-                "nome"     => $var["nome"],
-                "uuid"     => $var["uuid"],
+                "image_link" => $var["image_link"],
+                "nome"       => $var["nome"],
+                "uuid"       => $var["uuid"],
             ];
         }
 

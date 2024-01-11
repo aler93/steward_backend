@@ -20,9 +20,9 @@ return new class extends Migration
             $table->foreignId("produto_variacao_id")->nullable()->references("id")->on("produto_variacao")->cascadeOnUpdate()->restrictOnDelete();
             $table->string("produto", 150);
             $table->text("observacoes")->nullable();
-            $table->boolean("status")->default(false);
+            $table->boolean("adquirido")->default(false);
             $table->unsignedInteger("ordem")->nullable();
-            $table->boolean("preciso")->default(true);
+            $table->boolean("prioridade")->default(true);
             $table->timestamps();
         });
     }
