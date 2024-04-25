@@ -13,12 +13,53 @@ use \Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+     /**
+     * @OA\Post(
+     *     path="/users",
+     *     summary="Cadastra usuário",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="password",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="perfil",
+     *                     type="json",
+     *                     @OA\Schema(ref="#/components/schemas/PerfilSchema")
+     *                 ),
+     *                 example={"email": "fulano@exemplo.com.br", "password": "S4af3P4assword", "perfil": {"nome": "Fulano da Silva", "cpf": 61141289075, "cpf_responsavel": false, "telefone": "(48) 9-9867-3412", "altura": 1.75, "avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"}}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="user_uuid",
+     *                      type="string",
+     *                      example="7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10",
+     *                  )
+     *              )
+     *         )
+     *     )
+     * )
+     */
     public function cadastrar(CadastrarRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
             $uuid = uuid();
-            $data = array_merge($request->all(), ["uuid" => $uuid, "name" => $request->input("perfil")["nome"]]);
+            $data = array_merge($request->all(), ["uuid" => $uuid]);
 
             $data["password"]        = Hash::make($data["password"]);
             $data["change_password"] = false;

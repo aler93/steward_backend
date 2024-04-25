@@ -9,6 +9,19 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
+/**
+ * @OA\Info(
+ *      version="0.1.0",
+ *      title="Steward System",
+ *      description="Documentação",
+ *      @OA\Contact(
+ *          email="anaimayer3@gmail.com"
+ *      ),
+ *      @OA\License(
+ *          name="Proprietary",
+ *      )
+ * )
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
