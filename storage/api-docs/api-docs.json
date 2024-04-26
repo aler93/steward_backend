@@ -12,10 +12,324 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/users": {
+        "/login": {
             "post": {
-                "summary": "Cadastra usuário",
-                "operationId": "9acad89101475fabf2d9589d9c4350eb",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "operationId": "d55f416d61f094eb6038b566bc6e4596",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "fulano@exemplo.com.br",
+                                    "password": "S4af3P4assword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "type": "string"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiaWF0IjoxNzE0MDU4NDI1LCJleHAiOjE3MTQ5MjI0MjUsIm5iZiI6MTcxNDA1ODQyNSwianRpIjoiVGxZUzhQYXFpNDdKQnhpdiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.2xKUA7vbL80YHU9lKv4pKbXSTUC7lk-GVgfb-nLDxhY",
+                                        "token_type": "Bearer",
+                                        "expires_in": 14400
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Usuário ou senha incorreta"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable content"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "7f261a1e14b78ceb6cadbe969582a855",
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Token de acesso destruído"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Token could not be parsed from the request."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh",
+                "operationId": "79723d033278f41c747dc3af98965ca4",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2xvZ2luIiwiaWF0IjoxNzE0MDU4NDI1LCJleHAiOjE3MTQ5MjI0MjUsIm5iZiI6MTcxNDA1ODQyNSwianRpIjoiVGxZUzhQYXFpNDdKQnhpdiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.2xKUA7vbL80YHU9lKv4pKbXSTUC7lk-GVgfb-nLDxhY"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Token could not be parsed from the request."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "The token has been blacklisted"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/get-me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get me",
+                "operationId": "7e47871f94badc1376c1749e74f45c29",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario": {
+                                            "type": "json"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "usuario": {
+                                            "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10",
+                                            "email": "exemplo@mail.com.br",
+                                            "email_verified_at": null,
+                                            "change_password": true,
+                                            "created_at": "2024-04-25T11:43:40.000000Z",
+                                            "updated_at": "2024-04-25T11:43:40.000000Z",
+                                            "admin": false,
+                                            "perfil": {
+                                                "nome": "Usuário Exemplo",
+                                                "cpf": "61141289075",
+                                                "cpf_responsavel": false,
+                                                "telefone": "48998673412",
+                                                "altura": "1.75",
+                                                "avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Token inválido/Não encontrado"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Listar",
+                "description": "Lista usuários cadastrados no BD. Necessário permissão admin.",
+                "operationId": "52cf2b0b31b1d862f0ed91d8e1d00221",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "limit": {
+                                        "type": "integer"
+                                    },
+                                    "offset": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "limit": 15,
+                                    "offset": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuarios": {
+                                            "type": "json",
+                                            "example": {
+                                                "usuarios": {
+                                                    "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10",
+                                                    "email": "exemplo@mail.com.br",
+                                                    "email_verified_at": null,
+                                                    "change_password": true,
+                                                    "created_at": "2024-04-25T11:43:40.000000Z",
+                                                    "updated_at": "2024-04-25T11:43:40.000000Z",
+                                                    "admin": false
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Cadastrar",
+                "operationId": "2b65419508f430646443a589c50902be",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -64,6 +378,157 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/user/{uuid}": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Busca UUID",
+                "description": "Busca um usuário com base no UUID passado na URL",
+                "operationId": "722b0f0b8cc2880ea09ffb89634eab80",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario": {
+                                            "type": "json",
+                                            "example": {
+                                                "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10",
+                                                "email": "exemplo@mail.com.br",
+                                                "email_verified_at": null,
+                                                "change_password": true,
+                                                "created_at": "2024-04-25T11:43:40.000000Z",
+                                                "updated_at": "2024-04-25T11:43:40.000000Z",
+                                                "admin": false,
+                                                "perfil": {
+                                                    "nome": "Usuário Exemplo",
+                                                    "cpf": "61141289075",
+                                                    "cpf_responsavel": false,
+                                                    "telefone": "48998673412",
+                                                    "altura": "1.75",
+                                                    "avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Atualizar",
+                "description": "Atualiza um usuário",
+                "operationId": "7df442a9a24d0d830ddf6232b18b7a0a",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Remover",
+                "description": "Deleta um usuário (soft delete)",
+                "operationId": "52821b050c6133e122f92860df70e90e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Admin",
+                "description": "Atualiza o parâmetro admin de um usuário",
+                "operationId": "48d1d621387ada480a1baf1d21081350",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
                     }
                 }
             }

@@ -15,8 +15,9 @@ class UserController extends Controller
 {
      /**
      * @OA\Post(
-     *     path="/users",
-     *     summary="Cadastra usuário",
+     *     path="/user",
+     *     summary="Cadastrar",
+     *     tags={"Usuário"},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -86,6 +87,44 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/user",
+     *     summary="Listar",
+     *     description="Lista usuários cadastrados no BD. Necessário permissão admin.",
+     *     tags={"Usuário"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="limit",
+     *                     type="integer",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="offset",
+     *                     type="integer",
+     *                 ),
+     *                 example={"limit": 15, "offset": 0}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="usuarios",
+     *                      type="json",
+     *                      example={"usuarios": {"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10","email": "exemplo@mail.com.br","email_verified_at": null,"change_password": true,"created_at": "2024-04-25T11:43:40.000000Z","updated_at": "2024-04-25T11:43:40.000000Z","admin": false}},
+     *                  )
+     *              )
+     *         )
+     *     )
+     * )
+     */
     public function listar(Request $request): JsonResponse
     {
         $limit  = $request->input("limit") ?? 15;
@@ -100,6 +139,40 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/user/{uuid}",
+     *     summary="Busca UUID",
+     *     description="Busca um usuário com base no UUID passado na URL",
+     *     tags={"Usuário"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="uuid",
+     *                     type="string",
+     *                 ),
+     *                 example={"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      property="usuario",
+     *                      type="json",
+     *                      example={"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10","email": "exemplo@mail.com.br","email_verified_at": null,"change_password": true,"created_at": "2024-04-25T11:43:40.000000Z","updated_at": "2024-04-25T11:43:40.000000Z","admin": false,"perfil": {"nome": "Usuário Exemplo","cpf": "61141289075","cpf_responsavel": false,"telefone": "48998673412","altura": "1.75","avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"}},
+     *                  )
+     *              )
+     *         )
+     *     )
+     * )
+     */
     public function buscar(string $uuid): JsonResponse
     {
         try{
@@ -109,23 +182,47 @@ class UserController extends Controller
                 throw new Exception("Usuário não encontrado", 404);
             }
 
-            return $this->json($user->toArray());
+            return $this->json(["usuario" => $user->toArray()]);
         }catch( Exception $e ) {
             return $this->jsonException($e);
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/user/{uuid}",
+     *     summary="Remover",
+     *     description="Deleta um usuário (soft delete)",
+     *     tags={"Usuário"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="uuid",
+     *                     type="string",
+     *                 ),
+     *                 example={"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     )
+     * )
+     */
     public function remover(string $uuid): JsonResponse
     {
         try {
             DB::beginTransaction();
 
             $user   = User::where("uuid", "=", $uuid)->first();
+            //$perfil = Perfil::where("id_user", "=", $user->id)->first();
 
-            $perfil = Perfil::where("id_user", "=", $user->id)->first();
-
-            $perfil->forceDelete();
-            $user->forceDelete();
+            //$perfil->forceDelete();
+            $user->deleted_at = now();
+            $user->save();
 
             DB::commit();
 
@@ -137,6 +234,30 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/user/{uuid}",
+     *     summary="Atualizar",
+     *     description="Atualiza um usuário",
+     *     tags={"Usuário"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="uuid",
+     *                     type="string",
+     *                 ),
+     *                 example={"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     )
+     * )
+     */
     public function atualizar( Request $request, string $uuid ): JsonResponse
     {
         try {
@@ -166,6 +287,30 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Patch(
+     *     path="/user/{uuid}",
+     *     summary="Admin",
+     *     description="Atualiza o parâmetro admin de um usuário",
+     *     tags={"Usuário"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="uuid",
+     *                     type="string",
+     *                 ),
+     *                 example={"uuid": "7a02d1a0-1bd7-4d55-a32d-05e6ad3bee10"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     )
+     * )
+     */
     public function admin( string $uuid ): JsonResponse
     {
         try {
