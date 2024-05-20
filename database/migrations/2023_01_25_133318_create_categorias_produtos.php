@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('categorias_produtos', function (Blueprint $table) {
             $table->id();
             $table->string("nome", 50)->unique();
+            $table->text("imagem_url")->nullable();
             $table->foreignId("id_categoria")->nullable()->references("id")->on("categorias_produtos")->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

@@ -36,5 +36,7 @@ class UserSeed extends Seeder
         ];
 
         DB::table("users")->insert($users);
+
+        DB::statement("ALTER SEQUENCE users_id_seq RESTART WITH 10;");
     }
 }

@@ -53,11 +53,11 @@ Route::prefix("/mercado")->group(function() {
 
 Route::prefix("/produto")->group(function(){
     Route::middleware('jwt:admin')->group(function() {
-        Route::post("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "cadastrarCategoria"]);
-        Route::delete("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "deletarCategoria"]);
+        Route::post("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "cadastrarCategoria"]);
+        Route::delete("/categoria/{id}", ["App\Http\Controllers\Mercado\CategoriaController", "deletarCategoria"]);
     });
 
-    Route::get("/categoria", ["App\Http\Controllers\Mercado\ProdutoController", "obterListas"]);
+    Route::get("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "obterListas"]);
 });
 
 // Parte relacionada a saúde
@@ -67,7 +67,15 @@ Route::prefix("/saude")->group(function(){
     });
 
     Route::middleware('jwt')->group(function() {
-        Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
-        Route::post("/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
+        Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        Route::get("/exportar", ["App\Http\Controllers\Saude\UsuarioController", "exportar"]);
+        Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
+    });
+});
+
+// Coisas de sistema
+Route::prefix("/sistema")->group(function(){
+    Route::middleware('jwt:admin')->group(function(){
+        Route::put("/backup", ['App\Http\Controllers\Sistema\SistemaController', "backupDb"]);
     });
 });

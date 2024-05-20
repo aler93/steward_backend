@@ -19,6 +19,12 @@ class PerfilSeed extends Seeder
             [
                 "id_user" => 1,
                 "nome"    => "Admin",
+                "altura"  => null,
+            ],
+            [
+                "id_user" => 2,
+                "nome"    => "Alisson Naimayer",
+                "altura"  => 1.7,
             ]
         ];
 

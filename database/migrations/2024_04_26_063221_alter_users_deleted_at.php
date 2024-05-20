@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        return;
         Schema::table("users", function( Blueprint $table ) {
             $table->timestamp("deleted_at")->nullable();
         });
@@ -25,6 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
+        return;
         Schema::table("users", function( Blueprint $table ) {
             $table->dropColumn("deleted_at");
         });
