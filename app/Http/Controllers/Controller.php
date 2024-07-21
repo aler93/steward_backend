@@ -33,12 +33,12 @@ class Controller extends BaseController
 
     protected function jsonMessage(string $message, int $status = 200): jsonResponse
     {
-        return $this->json(["message" => $message], $status);
+        return $this->json(["msg" => $message], $status);
     }
 
     protected function jsonCreated(string $message, array $data = []): jsonResponse
     {
-        return $this->json(["message" => $message, "recurso" => $data], 201);
+        return $this->json(["msg" => $message, "recurso" => $data], 201);
     }
 
     protected function jsonNoContent(): jsonResponse
@@ -53,9 +53,9 @@ class Controller extends BaseController
         }
 
         $response = [
-            "title"   => $title,
-            "message" => $message,
-            "data"    => $data,
+            "titulo"  => $title,
+            "msg"     => $message,
+            "recurso" => $data,
             "status"  => http_response_code($status)
         ];
 

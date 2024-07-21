@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post("/user", ['App\Http\Controllers\UserController', "cadastrar"]);
-Route::get("/user", ['App\Http\Controllers\UserController', "listar"])->middleware("jwt");
+Route::get("/user", ['App\Http\Controllers\UserController', "listar"])->middleware("jwt:admin");
 Route::get("/user/{uuid}", ['App\Http\Controllers\UserController', "buscar"]);
 Route::put("/user/{uuid}", ['App\Http\Controllers\UserController', "atualizar"]);
 Route::patch("/user/{uuid}", ['App\Http\Controllers\UserController', "admin"]);
-Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"])->middleware("jwt");
+Route::delete("/user/{uuid}", ['App\Http\Controllers\UserController', "remover"])->middleware("jwt:self");
 
 Route::post("/login", ["App\Http\Controllers\LoginController", "login"]);
 Route::post("/logout", ["App\Http\Controllers\LoginController", "logout"]);
@@ -52,6 +52,7 @@ Route::prefix("/mercado")->group(function() {
 });
 
 Route::prefix("/produto")->group(function(){
+    Route::get("/pesquisar", ["App\Http\Controllers\Mercado\ProdutoController", "pesquisar"]);
     Route::middleware('jwt:admin')->group(function() {
         Route::post("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "cadastrarCategoria"]);
         Route::delete("/categoria/{id}", ["App\Http\Controllers\Mercado\CategoriaController", "deletarCategoria"]);
@@ -66,7 +67,7 @@ Route::prefix("/saude")->group(function(){
         //Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
     });
 
-    Route::middleware('jwt')->group(function() {
+    Route::middleware('jwt:admin')->group(function() {
         Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
         Route::get("/exportar", ["App\Http\Controllers\Saude\UsuarioController", "exportar"]);
         Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);

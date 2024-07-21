@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use App\Services\HttpStatus;
 
 class AuthUser
 {
@@ -20,13 +21,15 @@ class AuthUser
         $user = auth()->user();
 
         if( is_null($user) ) {
-            return response()->json(["message" => "Token JWT não encontrado na requisição"], 403);
+            return response()->json(["message" => "Token JWT não encontrado ou inválido"], HttpStatus::$forbidden);
         }
 
         if( $self == "self" ) {
+            return $next($request);
             $url  = explode("?", $request->getUri())[0];
             $uri  = explode("/", $url);
             $uuid = $uri[count($uri) - 1];
+            dd($uuid);
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);
