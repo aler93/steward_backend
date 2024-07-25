@@ -35,7 +35,7 @@ class UserController extends Controller
      *                     type="json",
      *                     @OA\Schema(ref="#/components/schemas/PerfilSchema")
      *                 ),
-     *                 example={"email": "fulano@exemplo.com.br", "password": "S4af3P4assword", "perfil": {"nome": "Fulano da Silva", "cpf": 61141289075, "cpf_responsavel": false, "telefone": "(48) 9-9867-3412", "altura": 1.75, "avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"}}
+     *                 example={"email": "fulano@exemplo.com.br", "password": "S4af3P4assword", "perfil": {"nome": "Fulano da Silva", "cpf": 61141289075, "cpf_responsavel": false, "telefone": "48998673412", "altura": 1.75, "avatar_url": "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"}}
      *             )
      *         )
      *     ),

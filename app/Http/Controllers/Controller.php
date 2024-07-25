@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Exception;
@@ -19,15 +20,19 @@ use Exception;
  *      ),
  *      @OA\License(
  *          name="Proprietary",
- *      )
- * )
+ *      ),
+ * ),
  */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function json($data, int $status = 200): jsonResponse
+    protected function json($data, $status = 200): jsonResponse
     {
+        if( !in_array($status, array_keys(Response::$statusTexts)) ) {
+            $status = 500;
+        }
+
         return response()->json($data, $status);
     }
 
@@ -62,7 +67,7 @@ class Controller extends BaseController
         return $this->json($response, $status);
     }
 
-    protected function jsonException(Exception $e, int $status = 500): jsonResponse
+    protected function jsonException(Exception $e, $status = 500): jsonResponse
     {
         $resp = [
             "message" => $e->getMessage(),

@@ -77,7 +77,9 @@ class ProdutoSeed extends Seeder
             ],
         ];
 
-        DB::table("produtos")->insert($produtos);
+        foreach ($produtos as $produto) {
+            DB::table("produtos")->insert($produto);
+        }
     }
 
     private function getIdCategorias(): array

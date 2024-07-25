@@ -14,7 +14,6 @@ class AuthUser
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next, $self = null)
     {
@@ -29,7 +28,7 @@ class AuthUser
             $url  = explode("?", $request->getUri())[0];
             $uri  = explode("/", $url);
             $uuid = $uri[count($uri) - 1];
-            dd($uuid);
+            //dd($uuid);
 
             if( $user->uuid != $uuid ) {
                 return response()->json(["message" => "Você não tem permissão para acessar esse recurso"], 401);

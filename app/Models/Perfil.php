@@ -24,7 +24,7 @@ class Perfil extends Model
     ];
 
     protected $hidden = [
-        "id_user",
+        //"id_user",
         "id",
         "created_at",
         "updated_at",

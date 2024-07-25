@@ -31,13 +31,13 @@ Route::post("/refresh", ["App\Http\Controllers\LoginController", "refresh"]);
 Route::get("/get-me", ["App\Http\Controllers\LoginController", "getMe"]);
 
 // Listas de mercados e etc.
-Route::prefix("/mercado")->group(function() {
-    Route::middleware('jwt:self')->group(function() {
+Route::prefix("/mercado")->group(function () {
+    Route::middleware('jwt:self')->group(function () {
         Route::post("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "cadastrarLista"]);
         Route::get("/lista/{uuid_user}", ["App\Http\Controllers\Mercado\ListaController", "listasDoUsuario"]);
     });
 
-    Route::middleware('jwt')->group(function() {
+    Route::middleware('jwt')->group(function () {
         // Lista
         Route::patch("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarStatusLista"]);
         Route::put("/lista/{uuid_lista}", ["App\Http\Controllers\Mercado\ListaController", "atualizarLista"]);
@@ -51,9 +51,9 @@ Route::prefix("/mercado")->group(function() {
     });
 });
 
-Route::prefix("/produto")->group(function(){
+Route::prefix("/produto")->group(function () {
     Route::get("/pesquisar", ["App\Http\Controllers\Mercado\ProdutoController", "pesquisar"]);
-    Route::middleware('jwt:admin')->group(function() {
+    Route::middleware('jwt:admin')->group(function () {
         Route::post("/categoria", ["App\Http\Controllers\Mercado\CategoriaController", "cadastrarCategoria"]);
         Route::delete("/categoria/{id}", ["App\Http\Controllers\Mercado\CategoriaController", "deletarCategoria"]);
     });
@@ -62,12 +62,12 @@ Route::prefix("/produto")->group(function(){
 });
 
 // Parte relacionada a saúde
-Route::prefix("/saude")->group(function(){
-    Route::middleware('jwt:self')->group(function() {
+Route::prefix("/saude")->group(function () {
+    Route::middleware('jwt:self')->group(function () {
         //Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
     });
 
-    Route::middleware('jwt:admin')->group(function() {
+    Route::middleware('jwt:admin')->group(function () {
         Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
         Route::get("/exportar", ["App\Http\Controllers\Saude\UsuarioController", "exportar"]);
         Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
@@ -75,8 +75,33 @@ Route::prefix("/saude")->group(function(){
 });
 
 // Coisas de sistema
-Route::prefix("/sistema")->group(function(){
-    Route::middleware('jwt:admin')->group(function(){
+Route::prefix("/sistema")->group(function () {
+    Route::middleware('jwt:admin')->group(function () {
         Route::put("/backup", ['App\Http\Controllers\Sistema\SistemaController', "backupDb"]);
     });
+});
+
+Route::get("/buscar-cep/{cep}", ['App\Http\Controllers\LookupController', "buscarCep"]);
+
+Route::prefix("/lookup")->group(function () {
+    Route::get("/tipos_pagamento", ['App\Http\Controllers\LookupController', "tiposPagamentos"]);
+    Route::get("/canais_comunicacao", ['App\Http\Controllers\LookupController', "canaisComunicacao"]);
+});
+
+Route::prefix("/link-pagamento")->group(function () {
+    Route::middleware('jwt:admin')->group(function () {
+        Route::post("/", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "create"]);
+        Route::get("/relatorio", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "relatorio"]);
+        Route::delete("/{id}", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "cancelar"]);
+    });
+    //Route::get("/relatorio", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "relatorio"]);
+    Route::get("/procurar/{link}", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "read"]);
+    Route::post("/pagar", ['App\Http\Controllers\Ecommerce\LinkPagamentoController', "pagar"]);
+});
+
+Route::get("/buscar-clientes/{nome}", ["App\Http\Controllers\Ecommerce\LinkPagamentoController", "buscarCliente"]);
+
+Route::prefix("/pedidos")->group(function () {
+    Route::post("/obter-pix", ['App\Http\Controllers\Ecommerce\PedidosController', "obterPix"]);
+    Route::post("/obter-boleto", ['App\Http\Controllers\Ecommerce\PedidosController', "obterBoleto"]);
 });

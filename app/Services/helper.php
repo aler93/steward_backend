@@ -13,3 +13,9 @@ if( !function_exists('filtrarNumeros') ) {
         return preg_replace('/[^0-9]/', '', $str);
     }
 }
+
+if( !function_exists('moedaBr') ) {
+    function moedaBr(float $num): string {
+        return "R$ " . number_format($num, 2, ',', '.');
+    }
+}
