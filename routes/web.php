@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
+Route::get('/public', ['App\Http\Controllers\Frontend\HomeController', "public"]);
 Route::get("/documentation", function(){
     return view("redoc");
 });
+
+Route::get('/', ['App\Http\Controllers\Frontend\HomeController', "index"]);
+Route::get('/login', ['App\Http\Controllers\Frontend\HomeController', "login"]);
+
+Route::get('/carros', ['App\Http\Controllers\Frontend\ReabastecimentoController', "carros"]);
+Route::get('/reabastecimento', ['App\Http\Controllers\Frontend\ReabastecimentoController', "registros"]);

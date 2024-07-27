@@ -29,7 +29,7 @@ class Controller extends BaseController
 
     protected function json($data, $status = 200): jsonResponse
     {
-        if( !in_array($status, array_keys(Response::$statusTexts)) ) {
+        if (!in_array($status, array_keys(Response::$statusTexts))) {
             $status = 500;
         }
 
@@ -53,7 +53,7 @@ class Controller extends BaseController
 
     protected function jsonResponse(string $title, string $message = "", array $data = [], int $status = 200): jsonResponse
     {
-        if( !strlen($title) ) {
+        if (!strlen($title)) {
             $title = "Requisição concluída";
         }
 
@@ -74,10 +74,24 @@ class Controller extends BaseController
             "line"    => $e->getLine(),
         ];
 
-        if( env("APP_DEBUG") ) {
+        if (env("APP_DEBUG")) {
             $resp["trace"] = $e->getTrace();
         }
 
         return $this->json($resp, $status);
+    }
+
+    protected function render(string $view, ?array $data = [])
+    {
+        $conf = [
+            "bs_css"       => env("APP_URL") . ":" . env("APP_PORT") . "/public?file=css/bootstrap.min.css",
+            "bs_js"        => env("APP_URL") . ":" . env("APP_PORT") . "/public?file=js/bootstrap.bundle.min.js",
+            "jquery"       => env("APP_URL") . ":" . env("APP_PORT") . "/public?file=js/jquery-3.7.1.min.js",
+            "functions_js" => env("APP_URL") . ":" . env("APP_PORT") . "/public?file=js/functions.js",
+            "url"          => env("APP_URL") . ":" . env("APP_PORT"),
+            "api"          => env("APP_URL") . ":" . env("APP_PORT") . "/api",
+        ];
+
+        return view("app", ["view" => $view, "data" => $data, "conf" => $conf]);
     }
 }

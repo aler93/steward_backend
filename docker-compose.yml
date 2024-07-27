@@ -19,6 +19,7 @@ services:
     volumes:
       - ./docker-config/nginx/site.conf:/etc/nginx/conf.d/site.conf
       - ./docker-logs/nginx:/var/log/nginx
+      - .:/app
     command: /bin/bash -c "envsubst '$${$http_upgrade},$${$host}' < /etc/nginx/conf.d/site.conf> /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     depends_on:
       - steward_api

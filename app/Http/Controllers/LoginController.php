@@ -75,25 +75,26 @@ class LoginController extends Controller
     {
         $credentials = request(['email', 'password']);
         $ttl         = env("JWT_EXPIRE", 4) * 60 * 60;
-    
+
         try {
             $token = auth()->setTTL($ttl)->attempt($credentials);
 
-            if( !strlen($token) ) {
+            if (!strlen($token)) {
                 return $this->json(["message" => "Usuário ou senha incorreta"], 401);
             }
 
             return $this->json([
-                "access_token" => $token,
-                "token_type"   => "Bearer",
-                "expires_in"   => env("JWT_EXPIRE", 4) * 60 * 60,
-            ]);
-        } catch( Exception $e ) {
+                                   "access_token" => $token,
+                                   "token_type"   => "Bearer",
+                                   "expires_in"   => env("JWT_EXPIRE", 4) * 60 * 60,
+                                   "expires_at"   => now()->addSeconds(env("JWT_EXPIRE", 4) * 60 * 60),
+                               ]);
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }
 
-     /**
+    /**
      * @OA\Post(
      *     path="/logout",
      *     summary="Logout",
@@ -134,7 +135,7 @@ class LoginController extends Controller
             auth()->logout();
 
             return $this->json(["message" => "Token de acesso destruído"]);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e, 400);
         }
     }
@@ -194,12 +195,12 @@ class LoginController extends Controller
             $token = auth()->refresh();
 
             return $this->json(["access_token" => $token]);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             $status = 500;
-            if( $e->getMessage() == "The token has been blacklisted" ) {
+            if ($e->getMessage() == "The token has been blacklisted") {
                 $status = 403;
             }
-            if( $e->getMessage() == "Token could not be parsed from the request." ) {
+            if ($e->getMessage() == "Token could not be parsed from the request.") {
                 $status = 400;
             }
             return $this->jsonException($e, $status);
@@ -246,15 +247,15 @@ class LoginController extends Controller
         try {
             $user = auth()->user();
 
-            if( is_null($user) ) {
+            if (is_null($user)) {
                 return $this->json(["message" => "Token inválido"], 403);
             }
 
-            $perfil = Perfil::where("id_user", "=", $user->id)->first();
+            $perfil       = Perfil::where("id_user", "=", $user->id)->first();
             $user->perfil = $perfil;
 
             return $this->json(["usuario" => $user], 202);
-        } catch( Exception $e ) {
+        } catch (Exception $e) {
             return $this->jsonException($e);
         }
     }

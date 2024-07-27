@@ -51,6 +51,20 @@ Route::prefix("/mercado")->group(function () {
     });
 });
 
+Route::prefix("/veiculos")->group(function () {
+    Route::middleware('jwt')->group(function () {
+        Route::post("/", ["App\Http\Controllers\VeiculosController", "create"]);
+        Route::get("/meus-veiculos", ["App\Http\Controllers\VeiculosController", "getMyCars"]);
+        Route::get("/principal", ["App\Http\Controllers\VeiculosController", "myMainCar"]);
+        Route::patch("/principal/{id}", ["App\Http\Controllers\VeiculosController", "changeMainCar"]);
+        Route::delete("/remover/{id}", ["App\Http\Controllers\VeiculosController", "remove"]);
+
+        Route::post("/abastecer", ["App\Http\Controllers\VeiculosController", "abastecer"]);
+        Route::get("/abastecimentos", ["App\Http\Controllers\VeiculosController", "abastecimentos"]);
+        Route::delete("/abastecimentos/{id}", ["App\Http\Controllers\VeiculosController", "removerAbastecimento"]);
+    });
+});
+
 Route::prefix("/produto")->group(function () {
     Route::get("/pesquisar", ["App\Http\Controllers\Mercado\ProdutoController", "pesquisar"]);
     Route::middleware('jwt:admin')->group(function () {
@@ -65,12 +79,14 @@ Route::prefix("/produto")->group(function () {
 Route::prefix("/saude")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         //Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
+        Route::put("/perfil", ["App\Http\Controllers\Saude\UsuarioController", "updatePerfil"]);
+        Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
     });
 
     Route::middleware('jwt:admin')->group(function () {
-        Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
+        //Route::get("/estatisticas", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
         Route::get("/exportar", ["App\Http\Controllers\Saude\UsuarioController", "exportar"]);
-        Route::post("/", ["App\Http\Controllers\Saude\UsuarioController", "salvar"]);
     });
 });
 

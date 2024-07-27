@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pagamento extends Model
+class Veiculo extends Model
 {
     use HasFactory;
 
-    protected $hidden = [
-        "id"
-    ];
-
+    protected $table    = "user_carros";
     protected $fillable = [
-        "id_tipo_pagamento",
-        "dt_pagamento",
-        "valor_pago",
-        "ativo",
+        "id_user",
+        "carro",
+        "descricao",
+        "principal",
         "created_at",
         "updated_at",
-        "id_link_pagamento",
     ];
 }

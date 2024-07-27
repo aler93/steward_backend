@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_pagamentos', function (Blueprint $table) {
+        Schema::create('user_carros', function (Blueprint $table) {
             $table->id();
-            $table->string("nome", 50);
-            $table->boolean("ativo")->default(true);
+            $table->foreignId("id_user")->nullable()->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->string("carro", 250);
+            $table->text("descricao")->nullable();
+            $table->boolean("principal")->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipos_pagamentos');
+        Schema::dropIfExists('user_carros');
     }
 };

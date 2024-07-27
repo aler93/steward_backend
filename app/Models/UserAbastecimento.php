@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Veiculo extends Model
+class UserAbastecimento extends Model
 {
     use HasFactory;
 
-    protected $table    = "user_carros";
+    protected $table    = "user_abastecimentos";
     protected $fillable = [
-        "id_user",
-        "carro",
+        "id_carro",
+        "km",
+        "litros",
+        "total_pago",
+        "preco_litro",
         "descricao",
-        "principal",
         "created_at",
         "updated_at",
     ];

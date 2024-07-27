@@ -71,8 +71,8 @@ class UserController extends Controller
 
             $dataPerfil = array_merge($request->input("perfil"), ["id_user" => $userId]);
 
-            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
-            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
+            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"] ?? "");
+            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"] ?? "");
 
             $perfil = new Perfil($dataPerfil);
             $perfil->save();
