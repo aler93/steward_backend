@@ -19,8 +19,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('link:notificar')->everyMinute();
         $schedule->command('link:expirados')->hourly();
         //$schedule->command('link:pagamentos')->everyMinute();
-
-        //$schedule->command("steward:limpar")->hourly();
     }
 
     /**

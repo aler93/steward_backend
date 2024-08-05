@@ -26,6 +26,9 @@ services:
 
   steward_api:
     image: aler/php-fpm:8.2
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: steward_api
     restart: unless-stopped
     networks:
