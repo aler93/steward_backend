@@ -42,6 +42,10 @@ class SistemaController extends Controller
         return DB::select("SELECT * FROM $table");
     }
 
+    /**
+     * PostgreSQL only
+     * @return array
+     */
     private function getTables(): array
     {
         $toBackup = [];

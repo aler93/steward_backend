@@ -13,7 +13,16 @@ use \Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-     /**
+    private static array $responses = [
+        "en-US" => [
+            "userNotFound" => "User not found",
+        ],
+        "pt-BR" => [
+            "userNotFound" => "Usuário não encontrado",
+        ]
+    ];
+
+    /**
      * @OA\Post(
      *     path="/user",
      *     summary="Cadastrar",
@@ -175,16 +184,17 @@ class UserController extends Controller
      */
     public function buscar(string $uuid): JsonResponse
     {
+        $loc = env("APP_LOCALE");
         try{
             $user = User::whereUuid($uuid)->with("perfil")->first();
 
             if( is_null($user) ) {
-                throw new Exception("Usuário não encontrado", 404);
+                throw new Exception(self::$responses[$loc]["userNotFound"], 404);
             }
 
             return $this->json(["usuario" => $user->toArray()]);
         }catch( Exception $e ) {
-            return $this->jsonException($e);
+            return $this->jsonException($e, $e->getCode());
         }
     }
 

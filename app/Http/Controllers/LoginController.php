@@ -73,8 +73,10 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+        $expires = env("JWT_EXPIRE", 4) * 60 * 60;
+
         $credentials = request(['email', 'password']);
-        $ttl         = env("JWT_EXPIRE", 4) * 60 * 60;
+        $ttl         = $expires;
 
         try {
             $token = auth()->setTTL($ttl)->attempt($credentials);
@@ -86,8 +88,8 @@ class LoginController extends Controller
             return $this->json([
                                    "access_token" => $token,
                                    "token_type"   => "Bearer",
-                                   "expires_in"   => env("JWT_EXPIRE", 4) * 60 * 60,
-                                   "expires_at"   => now()->addSeconds(env("JWT_EXPIRE", 4) * 60 * 60),
+                                   "expires_in"   => $expires,
+                                   "expires_at"   => now()->addSeconds($expires),
                                ]);
         } catch (Exception $e) {
             return $this->jsonException($e);

@@ -22,6 +22,7 @@ Route::get("/documentation", function(){
     return view("redoc");
 });
 
+// Frontend test only
 Route::get('/', ['App\Http\Controllers\Frontend\HomeController', "index"]);
 Route::get('/login', ['App\Http\Controllers\Frontend\HomeController', "login"]);
 

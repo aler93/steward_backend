@@ -134,6 +134,10 @@ class VeiculosController extends Controller
                 throw new \Exception("Nenhum carro selecionado para abastecimento", 409);
             }
 
+            if( $request->input("litros") == 0 ) {
+                throw new \Exception("Zero litros", 400);
+            }
+
             $abast = new UserAbastecimento([
                                                "id_carro"    => $v->id,
                                                "km"          => $request->input("km"),
