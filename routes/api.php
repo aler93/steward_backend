@@ -93,6 +93,7 @@ Route::prefix("/produto")->group(function () {
 
 */
 
+// Car, refuelling and millage
 Route::prefix("/veiculos")->group(function () {
     Route::middleware('jwt')->group(function () {
         Route::post("/", ["App\Http\Controllers\VeiculosController", "create"]);
@@ -107,7 +108,7 @@ Route::prefix("/veiculos")->group(function () {
     });
 });
 
-// Parte relacionada a saúde
+// Health, mass and IBM tracker. TODO
 Route::prefix("/saude")->group(function () {
     Route::middleware('jwt:self')->group(function () {
         //Route::get("/estatisticas/{uuid_user}", ["App\Http\Controllers\Saude\UsuarioController", "estatisticas"]);
