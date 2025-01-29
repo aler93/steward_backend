@@ -19,4 +19,4 @@ yarn-error.log
 /docker-logs/*
 docker-logs/nginx/*.log
 docker-logs/aplicacao/*.log
-
+docker-logs/aplicacao/laravel.log

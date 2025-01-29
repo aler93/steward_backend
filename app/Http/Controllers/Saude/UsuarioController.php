@@ -18,7 +18,7 @@ class UsuarioController extends Controller
         $offset = $request->input("offset") ?? 0;
 
         try {
-            $user  = auth()->user();
+            $user  = User::getLogged();
             $dados = UserImc::where("id_user", "=", $user->id)
                             ->orderByDesc("data_hora")
                             ->limit($limit)
@@ -42,7 +42,7 @@ class UsuarioController extends Controller
     public function exportar(Request $request)
     {
         try {
-            $user   = auth()->user();
+            $user   = User::getLogged();
             $perfil = $perfil = Perfil::where("id_user", "=", $user->id)->first();
             $dados  = UserImc::where("id_user", "=", $user->id)->orderByDesc("data_hora")->get();
 
@@ -65,7 +65,7 @@ class UsuarioController extends Controller
     public function salvar(Request $request)
     {
         try {
-            $user = auth()->user();
+            $user = User::getLogged();
             if (is_null($user)) {
                 return $this->jsonMessage("Usuário não encontrado", 404);
             }

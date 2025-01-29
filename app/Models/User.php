@@ -54,6 +54,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Perfil::class, "id_user");
     }
 
+    public static function getLogged()
+    {
+        return auth()->user();
+    }
+
     // Login related
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
