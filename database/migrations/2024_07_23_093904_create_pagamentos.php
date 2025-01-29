@@ -18,7 +18,7 @@ return new class extends Migration
             //$table->foreignId('id_cliente');
             $table->foreignId('id_tipo_pagamento')->references("id")->on("tipos_pagamentos");
             $table->timestamp("dt_pagamento");
-            $table->unsignedDouble("valor_pago");
+            $table->double("valor_pago");
             $table->timestamps();
         });
     }

@@ -39,5 +39,6 @@ class CanaisComunicacaoSeeder extends Seeder
         ];
 
         DB::table("canais_comunicacao")->insert($canais);
+        //DB::connection("mongodb")->table("canais_comunicacao")->insert($canais);
     }
 }

@@ -34,5 +34,6 @@ class TipoPagamentoSeeder extends Seeder
         ];
 
         DB::table("tipos_pagamentos")->insert($tipos);
+        //DB::connection("mongodb")->table("tipos_pagamentos")->insert($tipos);
     }
 }

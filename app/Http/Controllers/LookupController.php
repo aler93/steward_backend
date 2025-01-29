@@ -24,9 +24,7 @@ class LookupController extends Controller
     public function canaisComunicacao()
     {
         try {
-            $canais = CanalComunicacao::where("ativo", true)->get();
-
-            return $this->json(["canais" => $canais]);
+            return $this->json(["canais" => CanalComunicacao::all()]);
         } catch (Exception $e) {
             return $this->jsonException($e);
         }

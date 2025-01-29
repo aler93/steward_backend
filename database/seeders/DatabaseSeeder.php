@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             UserSeed::class,
             PerfilSeed::class,
             CategoriaProdutoSeed::class,
+            TipoPagamentoSeeder::class,
+            CanaisComunicacaoSeeder::class,
         ]);
     }
 }

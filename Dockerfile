@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Timezone
 ENV TZ=America/Fortaleza
@@ -10,6 +10,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions pdo_pgsql zip bz2 bcmath opcache
 #mbstring json curl redis
 RUN install-php-extensions @composer-2
+
+RUN pecl install redis && docker-php-ext-enable redis
 
 RUN apt update -y
 #RUN apt install -y php-xdebug php-pdo_pgsql php-zip php-bz2 php-bcmath php-redis php-opcache php-mbstring php-json php-curl

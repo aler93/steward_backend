@@ -17,5 +17,6 @@ yarn-error.log
 /.idea
 /.vscode
 /docker-logs/*
-docker-logs/nginx/access.log
-docker-logs/nginx/error.log
+docker-logs/nginx/*.log
+docker-logs/aplicacao/*.log
+

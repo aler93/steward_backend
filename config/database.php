@@ -93,6 +93,12 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => 'mongodb://mongo:secretpass@192.168.15.6:27017/?authSource=steward',
+            'database' => env("NODB_DATABASE"),
+        ],
+
     ],
 
     /*
