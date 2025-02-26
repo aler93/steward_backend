@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_carros', function (Blueprint $table) {
+        Schema::create('user_cars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_user")->nullable()->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
-            $table->string("carro", 250);
-            $table->text("descricao")->nullable();
-            $table->boolean("principal")->default(false);
+            $table->foreignId("user_id")->nullable()->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->string("car", 250);
+            $table->text("description")->nullable();
+            $table->boolean("main")->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_carros');
+        Schema::dropIfExists('user_cars');
     }
 };

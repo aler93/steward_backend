@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('link_pagamento_comunicacao', function (Blueprint $table) {
+        Schema::create('link_payment_communication', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_link_pagamento")->references("id")->on("link_pagamento")->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId("id_canal_comunicacao")->references("id")->on("canais_comunicacao")->cascadeOnUpdate()->restrictOnDelete();
-            $table->timestamp("dt_envio")->nullable();
+            $table->foreignId("payment_link_id")->references("id")->on("payment_link")->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId("communication_channels_id")->references("id")->on("communication_channels")->cascadeOnUpdate()->restrictOnDelete();
+            $table->timestamp("dt_sent")->nullable();
             $table->timestamps();
             $table->timestamp("deleted_at")->nullable();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('link_pagamento_comunicacao');
+        Schema::dropIfExists('link_payment_communication');
     }
 };

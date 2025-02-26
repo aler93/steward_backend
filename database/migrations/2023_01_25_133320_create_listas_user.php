@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('listas_user', function (Blueprint $table) {
+        Schema::create('user_lists', function (Blueprint $table) {
             $table->id();
             $table->uuid("uuid")->unique();
-            $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
-            $table->date("data_compra")->nullable();
+            $table->foreignId("user_id")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->date("date_purchase")->nullable();
             $table->boolean("status")->default(false);
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lista_user');
+        Schema::dropIfExists('user_lists');
     }
 };

@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('link_pagamento', function (Blueprint $table) {
+        Schema::create('payment_link', function (Blueprint $table) {
             $table->id();
             $table->string("link", 250);
-            $table->foreignId("id_user")->nullable()->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
-            $table->double("valor");
+            $table->foreignId("user_id")->nullable()->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->double("value");
             $table->unsignedTinyInteger("status")->default(1);
-            $table->timestamp("dt_validade");
-            $table->timestamp("dt_pagamento")->nullable();
+            $table->timestamp("dt_valid");
+            $table->timestamp("dt_payment")->nullable();
             $table->timestamps();
             $table->timestamp("deleted_at")->nullable();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('link_pagamento');
+        Schema::dropIfExists('payment_link');
     }
 };

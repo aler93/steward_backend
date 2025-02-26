@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pagamentos', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('id_cliente');
-            $table->foreignId('id_tipo_pagamento')->references("id")->on("tipos_pagamentos");
-            $table->timestamp("dt_pagamento");
-            $table->double("valor_pago");
+            $table->foreignId('payment_types_id')->references("id")->on("payment_types");
+            $table->timestamp("dt_payment");
+            $table->double("value_paid");
+            $table->boolean("accept")->default(false);
+            $table->foreignId("payment_link_id")->nullable()->references("id")->on("payment_link");
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('payments');
     }
 };

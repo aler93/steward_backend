@@ -17,28 +17,28 @@ class CanaisComunicacaoSeeder extends Seeder
     {
         $canais = [
             [
-                "nome"  => "e-mail",
-                "ativo" => true,
+                "name"  => "e-mail",
+                "status" => true,
             ],
             [
-                "nome"  => "SMS",
-                "ativo" => true,
+                "name"  => "SMS",
+                "status" => true,
             ],
             [
-                "nome"  => "Telegram",
-                "ativo" => true,
+                "name"  => "Telegram",
+                "status" => true,
             ],
             [
-                "nome"  => "Whatsapp",
-                "ativo" => true,
+                "name"  => "Whatsapp",
+                "status" => true,
             ],
             [
-                "nome"  => "Sinal de fumaça",
-                "ativo" => true,
+                "name"  => "Sinal de fumaça",
+                "status" => true,
             ],
         ];
 
-        DB::table("canais_comunicacao")->insert($canais);
+        DB::table("communication_channels")->insert($canais);
         //DB::connection("mongodb")->table("canais_comunicacao")->insert($canais);
     }
 }

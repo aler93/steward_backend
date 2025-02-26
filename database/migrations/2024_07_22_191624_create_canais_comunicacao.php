@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('canais_comunicacao', function (Blueprint $table) {
+        Schema::create('communication_channels', function (Blueprint $table) {
             $table->id();
-            $table->string("nome", 50);
-            $table->boolean("ativo");
+            $table->string("name", 50);
+            $table->boolean("status")->default(true);
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('canais_comunicacao');
+        Schema::dropIfExists('communication_channels');
     }
 };

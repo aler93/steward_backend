@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PerfilSeed extends Seeder
+class ProfileSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,17 +17,17 @@ class PerfilSeed extends Seeder
     {
         $profiles = [
             [
-                "id_user" => 1,
-                "nome"    => "Admin",
-                "altura"  => null,
+                "user_id" => 1,
+                "name"    => "Admin",
+                "height"  => null,
             ],
             [
-                "id_user" => 2,
-                "nome"    => "Alisson Naimayer",
-                "altura"  => 1.7,
+                "user_id" => 2,
+                "name"    => "Alisson Naimayer",
+                "height"  => 1.7,
             ]
         ];
 
-        DB::table("perfil_user")->insert($profiles);
+        DB::table("user_profile")->insert($profiles);
     }
 }

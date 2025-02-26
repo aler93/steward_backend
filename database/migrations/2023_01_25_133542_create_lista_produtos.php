@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lista_produtos', function (Blueprint $table) {
+        Schema::create('user_list_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_lista")->references("id")->on("listas_user")->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId("id_produto")->nullable()->references("id")->on("produtos")->cascadeOnUpdate()->restrictOnDelete();
-            $table->string("produto", 150);
-            $table->text("observacoes")->nullable();
+            $table->foreignId("list_id")->references("id")->on("user_lists")->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId("product_id")->nullable()->references("id")->on("products")->cascadeOnUpdate()->restrictOnDelete();
+            $table->string("product", 150);
+            $table->text("observation")->nullable();
             $table->boolean("status")->default(false);
-            $table->unsignedInteger("ordem")->nullable();
+            $table->unsignedInteger("order")->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lista_produtos');
+        Schema::dropIfExists('user_list_products');
     }
 };

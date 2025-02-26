@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_abastecimentos', function (Blueprint $table) {
+        Schema::create('user_refueling', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_carro")->nullable()->references("id")->on("user_carros")->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId("vehicle_id")->nullable()->references("id")->on("user_cars")->cascadeOnUpdate()->restrictOnDelete();
             $table->double("km");
-            $table->double("litros");
-            $table->double("total_pago")->nullable();
-            $table->double("preco_litro")->nullable();
-            $table->text("descricao")->nullable();
+            $table->double("liters");
+            $table->double("value_paid")->nullable();
+            $table->double("price_liter")->nullable();
+            $table->text("observation")->nullable();
             $table->timestamps();
         });
     }

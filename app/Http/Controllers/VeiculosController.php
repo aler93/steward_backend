@@ -32,7 +32,7 @@ class VeiculosController extends Controller
             $v = new Veiculo([
                                  "id_user"   => $request->user()->id,
                                  "carro"     => $data["veiculo"],
-                                 "descricao" => $data["descricao"],
+                                 "descricao" => $data["descricao"] ?? null,
                                  "principal" => $request->input("principal", false),
                              ]);
             $v->save();
@@ -63,7 +63,10 @@ class VeiculosController extends Controller
                 }
             });
 
-            return $this->json($v);
+            return $this->json([
+                "vehicles" => $v,
+                "total"    => count($v),
+            ]);
         } catch (\Exception $e) {
             return $this->jsonException($e);
         }
@@ -76,7 +79,9 @@ class VeiculosController extends Controller
                         ->where("principal", true)
                         ->first();
 
-            return $this->json($v);
+            return $this->json([
+                "vehicle" => $v
+            ]);
         } catch (\Exception $e) {
             return $this->jsonException($e);
         }
@@ -134,8 +139,11 @@ class VeiculosController extends Controller
                 throw new \Exception("Nenhum carro selecionado para abastecimento", 409);
             }
 
-            if( $request->input("litros") == 0 ) {
+            if( $request->input("litros") <= 0 ) {
                 throw new \Exception("Zero litros", 400);
+            }
+            if( $request->input("km") <= 0 ) {
+                throw new \Exception("Zero km", 400);
             }
 
             $abast = new UserAbastecimento([

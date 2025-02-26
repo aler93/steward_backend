@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('user_imc', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
-            $table->float("massa_corporal");
-            $table->float("altura");
-            $table->text("observacoes")->nullable();
-            $table->timestamp("data_hora");
+            $table->foreignId("user_id")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->float("body_mass");
+            $table->float("height");
+            $table->text("observation")->nullable();
+            $table->timestamp("date_time");
         });
     }
 

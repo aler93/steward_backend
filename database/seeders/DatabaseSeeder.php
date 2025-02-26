@@ -23,10 +23,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeed::class,
-            PerfilSeed::class,
-            CategoriaProdutoSeed::class,
-            TipoPagamentoSeeder::class,
-            CanaisComunicacaoSeeder::class,
+            ProfileSeed::class,
+            VehicleBrandSeed::class,
+            VehicleModelsSeed::class,
+            //CategoriaProdutoSeed::class,
+            //TipoPagamentoSeeder::class,
+            //CanaisComunicacaoSeeder::class,
         ]);
     }
 }

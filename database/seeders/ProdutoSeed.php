@@ -21,7 +21,7 @@ class ProdutoSeed extends Seeder
         $produtos = [
             [
                 "uuid"                   => uuid(),
-                "id_categoria"           => $categorias["Padaria"],
+                "category_id"            => $categorias["Padaria"],
                 "nome"                   => "Pão",
                 "descricao"              => "",
                 "informacao_nutricional" => "",

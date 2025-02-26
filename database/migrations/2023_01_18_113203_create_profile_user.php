@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('perfil_user', function (Blueprint $table) {
+        Schema::create('user_profile', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("id_user")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
-            $table->string("nome", 80);
-            $table->string("cpf", 11)->nullable();
-            $table->boolean("cpf_responsavel")->default(false);
-            $table->string("telefone", 11)->nullable();
-            $table->float("altura")->nullable();
+            $table->foreignId("user_id")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
+            $table->string("name", 80);
+            $table->string("document", 15)->nullable();
+            $table->boolean("is_self_document")->default(true);
+            $table->string("phone_number", 14)->nullable();
+            $table->float("height")->nullable();
             $table->text("avatar_url")->nullable();
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perfil_user');
+        Schema::dropIfExists('user_profile');
     }
 };

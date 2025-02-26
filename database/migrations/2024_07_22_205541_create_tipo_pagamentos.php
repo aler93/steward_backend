@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_pagamentos', function (Blueprint $table) {
+        Schema::create('payment_types', function (Blueprint $table) {
             $table->id();
-            $table->string("nome", 50);
-            $table->boolean("ativo")->default(true);
+            $table->string("name", 50);
+            $table->boolean("status")->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipos_pagamentos');
+        Schema::dropIfExists('payment_types');
     }
 };
