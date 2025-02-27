@@ -7,7 +7,7 @@ use App\Models\Veiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class VeiculosController extends Controller
+class UserVehicleController extends Controller
 {
     public function __construct()
     {

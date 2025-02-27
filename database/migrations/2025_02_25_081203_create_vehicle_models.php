@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("brand_id")->nullable()->references("id")->on("vehicle_brands")->cascadeOnUpdate()->restrictOnDelete();
             $table->string("model", 50);
+            $table->longText("extra")->nullable();
+            $table->text("image_url")->nullable();
         });
     }
 

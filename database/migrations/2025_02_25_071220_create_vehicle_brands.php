@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string("name", 50)->unique();
             $table->string("origin", 25)->nullable();
             $table->unsignedInteger("year_foudation")->nullable();
+            $table->longText("extra")->nullable();
+            $table->text("logo_url")->nullable();
         });
     }
 

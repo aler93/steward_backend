@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_imc', function (Blueprint $table) {
+        Schema::create('user_bmi', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->references("id")->on("users")->cascadeOnUpdate()->restrictOnDelete();
             $table->float("body_mass");

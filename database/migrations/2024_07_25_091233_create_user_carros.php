@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("car", 250);
             $table->text("description")->nullable();
             $table->boolean("main")->default(false);
+            $table->text("image_url")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

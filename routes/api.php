@@ -93,18 +93,40 @@ Route::prefix("/produto")->group(function () {
 
 */
 
+// CRUD vehicles
+Route::prefix("/vehicle-brands")->group(function () {
+    Route::middleware('jwt')->group(function () {
+        Route::get("/", ["App\Http\Controllers\Vehicle\BrandController", "list"]);
+        Route::get("/{id}", ["App\Http\Controllers\Vehicle\BrandController", "find"]);
+    });
+    Route::middleware('jwt:admin')->group(function () {
+        Route::post("/", ["App\Http\Controllers\Vehicle\BrandController", "create"]);
+        Route::patch("/{id}", ["App\Http\Controllers\Vehicle\BrandController", "change"]);
+    });
+});
+Route::prefix("/vehicle-models")->group(function () {
+    Route::middleware('jwt')->group(function () {
+        Route::get("/{brandId}", ["App\Http\Controllers\Vehicle\ModelsController", "list"]);
+        Route::get("/find/{id}", ["App\Http\Controllers\Vehicle\ModelsController", "find"]);
+    });
+    Route::middleware('jwt:admin')->group(function () {
+        Route::post("/", ["App\Http\Controllers\Vehicle\ModelsController", "create"]);
+        Route::patch("/{id}", ["App\Http\Controllers\ModelsController", "change"]);
+    });
+});
+
 // Car, refuelling and millage
 Route::prefix("/veiculos")->group(function () {
     Route::middleware('jwt')->group(function () {
-        Route::post("/", ["App\Http\Controllers\VeiculosController", "create"]);
-        Route::get("/meus-veiculos", ["App\Http\Controllers\VeiculosController", "getMyCars"]);
-        Route::get("/principal", ["App\Http\Controllers\VeiculosController", "myMainCar"]);
-        Route::patch("/principal/{id}", ["App\Http\Controllers\VeiculosController", "changeMainCar"]);
-        Route::delete("/remover/{id}", ["App\Http\Controllers\VeiculosController", "remove"]);
+        Route::post("/", ["App\Http\Controllers\UserVehicle", "create"]);
+        Route::get("/meus-veiculos", ["App\Http\Controllers\UserVehicle", "getMyCars"]);
+        Route::get("/principal", ["App\Http\Controllers\UserVehicle", "myMainCar"]);
+        Route::patch("/principal/{id}", ["App\Http\Controllers\UserVehicle", "changeMainCar"]);
+        Route::delete("/remover/{id}", ["App\Http\Controllers\UserVehicle", "remove"]);
 
-        Route::post("/abastecer", ["App\Http\Controllers\VeiculosController", "abastecer"]);
-        Route::get("/abastecimentos", ["App\Http\Controllers\VeiculosController", "abastecimentos"]);
-        Route::delete("/abastecimentos/{id}", ["App\Http\Controllers\VeiculosController", "removerAbastecimento"]);
+        Route::post("/abastecer", ["App\Http\Controllers\UserVehicle", "abastecer"]);
+        Route::get("/abastecimentos", ["App\Http\Controllers\UserVehicle", "abastecimentos"]);
+        Route::delete("/abastecimentos/{id}", ["App\Http\Controllers\UserVehicle", "removerAbastecimento"]);
     });
 });
 

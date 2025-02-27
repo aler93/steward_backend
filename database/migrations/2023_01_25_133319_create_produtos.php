@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId("product_categories_id")->references("id")->on("product_categories")->cascadeOnUpdate()->restrictOnDelete();
             $table->string("name", 100);
             $table->text("description")->nullable();
-            $table->text("nutritional_information")->nullable();
+            $table->longText("nutritional_information")->nullable();
+            $table->text("image_url")->nullable();
             $table->timestamps();
         });
     }
