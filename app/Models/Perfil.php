@@ -12,12 +12,12 @@ class Perfil extends Model
     public $table = "perfil_user";
 
     protected $fillable = [
-        "id_user",
-        "nome",
-        "cpf",
-        "cpf_responsavel",
-        "telefone",
-        "altura",
+        "user_id",
+        "name",
+        "document",
+        "is_self_document",
+        "phone_number",
+        "height",
         "avatar_url",
         "created_at",
         "updated_at",

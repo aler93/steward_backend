@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoriaProduto extends Model
+class ProductCategory extends Model
 {
     use HasFactory;
 
-    public $table = "categorias_produtos";
+    public $table      = "product_categories";
     public $timestamps = false;
 
-    protected $fillable = ["nome", "id_categoria"];
+    protected $fillable = ["name", "category_id"];
 }

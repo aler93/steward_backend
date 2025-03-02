@@ -70,31 +70,31 @@ class UsuarioController extends Controller
                 return $this->jsonMessage("Usuário não encontrado", 404);
             }
 
-            $dataHora = $request->input("data_hora");
+            $dataHora = $request->input("date_time");
             if (is_null($dataHora)) {
                 $dataHora = now()->format("d/m/Y H:i:s");
             }
 
-            $perfil = Perfil::where("id_user", "=", $user->id)->first();
-            if (is_null($perfil) and is_null($request->input("altura"))) {
+            $perfil = Perfil::where("user_id", "=", $user->id)->first();
+            if (is_null($perfil) and is_null($request->input("height"))) {
                 return $this->jsonMessage("Não é possível salvar sem a informação de altura", 400);
             }
 
-            if (!is_null($request->input("altura")) and $perfil->altura != $request->input("altura")) {
-                $perfil->altura = $request->input("altura");
+            if (!is_null($request->input("height")) and $perfil->height != $request->input("height")) {
+                $perfil->height = $request->input("height");
                 $perfil->save();
             }
 
-            if (is_null($request->input("massa_corporal"))) {
+            if (is_null($request->input("body_mass"))) {
                 return $this->jsonMessage("Não é possível salvar sem a informação de massa corporal", 422);
             }
 
             $dados = [
-                "id_user"        => $user->id,
-                "altura"         => $perfil->altura,
-                "data_hora"      => $dataHora,
-                "massa_corporal" => $request->input("massa_corporal"),
-                "observacoes"    => $request->input("observacoes")
+                "user_id"     => $user->id,
+                "height"      => $perfil->height,
+                "date_time"   => $dataHora,
+                "body_mass"   => $request->input("body_mass"),
+                "observation" => $request->input("observation")
             ];
 
             $imc = new UserImc($dados);

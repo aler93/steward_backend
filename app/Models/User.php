@@ -49,9 +49,9 @@ class User extends Authenticatable implements JWTSubject
         "admin"             => "boolean"
     ];
 
-    public function perfil()
+    public function profile()
     {
-        return $this->hasOne(Perfil::class, "id_user");
+        return $this->hasOne(Perfil::class, "user_id");
     }
 
     public static function getLogged()

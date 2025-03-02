@@ -64,7 +64,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function cadastrar(CadastrarRequest $request): JsonResponse
+    public function create(CadastrarRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -78,17 +78,17 @@ class UserController extends Controller
             $user->save();
             $userId = $user->id;
 
-            $dataPerfil = array_merge($request->input("perfil"), ["id_user" => $userId]);
+            $dataPerfil = array_merge($request->input("profile"), ["user_id" => $userId]);
 
-            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"] ?? "");
-            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"] ?? "");
+            $dataPerfil["phone_number"] = filtrarNumeros($dataPerfil["phone_number"] ?? "");
+            $dataPerfil["document"]     = filtrarNumeros($dataPerfil["document"] ?? "");
 
             $perfil = new Perfil($dataPerfil);
             $perfil->save();
 
             DB::commit();
 
-            return $this->json(["uuid_user" => $uuid], 201);
+            return $this->json(["user_uuid" => $uuid], 201);
         } catch( Exception $e ) {
             DB::rollback();
 
@@ -134,7 +134,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function listar(Request $request): JsonResponse
+    public function list(Request $request): JsonResponse
     {
         $limit  = $request->input("limit") ?? 15;
         $offset = $request->input("offset") ?? 0;
@@ -142,7 +142,7 @@ class UserController extends Controller
         try {
             $users = User::limit($limit)->offset($offset)->get();
 
-            return $this->json(["usuarios" => $users]);
+            return $this->json(["users" => $users]);
         }catch( Exception $e ) {
             return $this->jsonException($e);
         }
@@ -182,11 +182,11 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function buscar(string $uuid): JsonResponse
+    public function find(string $uuid): JsonResponse
     {
         $loc = env("APP_LOCALE");
         try{
-            $user = User::whereUuid($uuid)->with("perfil")->first();
+            $user = User::whereUuid($uuid)->with("profile")->first();
 
             if( is_null($user) ) {
                 throw new Exception(self::$responses[$loc]["userNotFound"], 404);
@@ -222,15 +222,12 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function remover(string $uuid): JsonResponse
+    public function delete(string $uuid): JsonResponse
     {
         try {
             DB::beginTransaction();
 
             $user   = User::where("uuid", "=", $uuid)->first();
-            //$perfil = Perfil::where("id_user", "=", $user->id)->first();
-
-            //$perfil->forceDelete();
             $user->deleted_at = now();
             $user->save();
 
@@ -268,23 +265,23 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function atualizar( Request $request, string $uuid ): JsonResponse
+    public function change( Request $request, string $uuid ): JsonResponse
     {
         try {
             DB::beginTransaction();
 
             $user   = User::where("uuid", "=", $uuid)->first();
-            $perfil = Perfil::where("id_user", "=", $user->id)->first();
+            $profile = Perfil::where("user_id", "=", $user->id)->first();
 
-            $dataPerfil = $request->input("perfil");
-            $dataPerfil["telefone"] = filtrarNumeros($dataPerfil["telefone"]);
-            $dataPerfil["cpf"]      = filtrarNumeros($dataPerfil["cpf"]);
+            $dataProfile = $request->input("profile");
+            $dataProfile["phone_number"] = filtrarNumeros($dataProfile["phone_number"]);
+            $dataProfile["document"]     = filtrarNumeros($dataProfile["document"]);
 
             $dataUser   = $request->all();
             unset($dataUser["perfil"]);
             $dataUser["admin"] = false;
 
-            $perfil->update($dataPerfil);
+            $profile->update($dataProfile);
             $user->update($dataUser);
 
             DB::commit();

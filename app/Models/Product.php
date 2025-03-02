@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Produto extends Model
+class Product extends Model
 {
     use HasFactory;
 
-    public $table = "produtos";
+    public $table = "products";
 
     protected $fillable = [
         "uuid",
-        "id_categoria",
-        "nome",
-        "descricao",
-        "informacao_nutricional",
+        "category_id",
+        "name",
+        "description",
+        "nutritional_information",
         "created_at",
         "updated_at",
     ];

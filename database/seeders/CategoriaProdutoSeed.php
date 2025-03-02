@@ -17,40 +17,49 @@ class CategoriaProdutoSeed extends Seeder
     {
         $categoriasBases = [
             [
-                "id"   => 1,
-                "nome" => "Limpeza"
+                "id"        => 1,
+                "nome"      => "Limpeza",
+                "image_url" => "https://uauingleza.com.br/wp-content/uploads/2023/04/Produtos_de_limpeza_saiba_como_escolher_os_ideiais_para_a_sua_casa_2.jpg.jpeg",
             ],
             [
-                "id"   => 2,
-                "nome" => "Comida"
+                "id"        => 2,
+                "nome"      => "Comida",
+                "image_url" => "https://img.freepik.com/vetores-gratis/vista-aerea-de-comida-no-prato_1308-47981.jpg",
             ],
             [
-                "id"   => 3,
-                "nome" => "Bebidas"
+                "id"        => 3,
+                "nome"      => "Bebidas",
+                "image_url" => "https://confeitariaparispoa.com.br/images/categorias/bebidas.png",
             ],
             [
-                "id"   => 4,
-                "nome" => "Automotivo"
+                "id"        => 4,
+                "nome"      => "Automotivo",
+                "image_url" => "https://img.freepik.com/vetores-premium/icone-de-carro-preto-icone-de-vetor-de-carro-no-fundo-branco-isolado-sinal-do-veiculo-ilustracao-vetorial_882636-360.jpg",
             ],
             [
-                "id"   => 5,
-                "nome" => "Eletrônicos"
+                "id"        => 5,
+                "nome"      => "Eletrônicos",
+                "image_url" => "https://cdn-icons-png.flaticon.com/512/5214/5214141.png",
             ],
             [
-                "id"   => 6,
-                "nome" => "Móveis"
+                "id"        => 6,
+                "nome"      => "Móveis",
+                "image_url" => "https://cdn-icons-png.flaticon.com/512/2590/2590525.png",
             ],
             [
-                "id"   => 7,
-                "nome" => "Petshop"
+                "id"        => 7,
+                "nome"      => "Petshop",
+                "image_url" => "https://cdn-icons-png.flaticon.com/512/4889/4889146.png",
             ],
             [
-                "id"   => 8,
-                "nome" => "Saúde"
+                "id"        => 8,
+                "nome"      => "Saúde",
+                "image_url" => "https://img.freepik.com/vetores-premium/icone-de-cruz-vermelha-circular_665900-32.jpg",
             ],
             [
-                "id"   => 9,
-                "nome" => "Outros"
+                "id"        => 9,
+                "nome"      => "Outros",
+                "image_url" => "https://cdn-icons-png.flaticon.com/512/30/30254.png",
             ],
         ];
 

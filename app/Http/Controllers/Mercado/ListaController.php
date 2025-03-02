@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mercado;
 use App\Http\Controllers\Controller;
 use App\Models\ListaProduto;
 use App\Models\ListaUser;
+use App\Models\User;
 use App\Repositories\ListaRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ListaController extends Controller
             $dados = $request->input("lista");
 
             $dados["uuid"]    = uuid();
-            $dados["id_user"] = auth()->user()->id;
+            $dados["user_id"] = User::getLogged()->id;
 
             $this->repository->cadastrarLista($dados);
 
@@ -57,7 +58,7 @@ class ListaController extends Controller
         $offset = $request->input("offset") ?? 0;
 
         try {
-            $user = auth()->user();
+            $user = User::getLogged();
 
             $dados = ListaUser::where("id_user", "=", $user->id)->limit($limit)->offset($offset);
 

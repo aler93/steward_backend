@@ -4,25 +4,26 @@ namespace App\Http\Controllers\Mercado;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\CategoriaProduto;
+use App\Models\ProductCategory;
+use Exception;
 
 class CategoriaController extends Controller
 {
-    public function cadastrarCategoria(Request $request)
+    public function create(Request $request)
     {
         try {
-            $nome = ucfirst(strtolower($request->input("nome")));
-            $row = ["nome" => $nome];
+            $name = ucfirst(strtolower($request->input("name")));
+            $row  = ["name" => $name];
 
-            if( strlen($nome) <= 0 ) {
+            if( strlen($name) <= 0 ) {
                 return $this->jsonMessage("Categoria sem nome", 400);
             }
 
-            if( !is_null(CategoriaProduto::where("nome", "=", $nome)->first()) ) {
+            if( !is_null(ProductCategory::where("name", "=", $name)->first()) ) {
                 return $this->jsonMessage("Categoria já cadastrada", 409);
             }
 
-            $cat = new CategoriaProduto($row);
+            $cat = new ProductCategory($row);
             $cat->save();
 
             return $this->jsonCreated("Categoria cadastrada", $cat->toArray());
@@ -31,10 +32,10 @@ class CategoriaController extends Controller
         }
     }
 
-    public function deletarCategoria(int $id)
+    public function delete(int $id)
     {
         try {
-            CategoriaProduto::where("id", "=", $id)->forceDelete();
+            ProductCategory::where("id", "=", $id)->forceDelete();
 
             return $this->jsonNoContent();
         } catch( Exception $e ) {
@@ -42,11 +43,11 @@ class CategoriaController extends Controller
         }
     }
 
-    public function obterListas()
+    public function list()
     {
-        $cols = ["categorias_produtos.id", "categorias_produtos.nome", "cp.nome AS categoria", "categorias_produtos.imagem_url"];
+        $cols = ["product_categories.id", "product_categories.nome", "cp.nome AS categoria", "product_categories.imagem_url"];
         try {
-            $categorias = CategoriaProduto::select($cols)->leftJoin("categorias_produtos AS cp", "cp.id", "=", "categorias_produtos.id_categoria")
+            $categorias = ProductCategory::select($cols)->leftJoin("product_categories AS cp", "cp.id", "=", "product_categories.id_categoria")
             ->get();
 
             return $this->json(["categorias" => $categorias->toArray()]);
